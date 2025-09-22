@@ -1,1392 +1,320 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="tr">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="google-site-verification" content="wmrIAMKfoubCubfGjXQcbiZoRoYdXfvT9bDWRc1kvRs" />
-    <link rel="icon" type="image/png" href="Ekran görüntüsü. .png">
-    <title>AI WYRM - Advanced AI Assistant</title>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>xAI Docs – Tek Dosya</title>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              background: "#ffffff",
+              foreground: "#1a1a1a",
+              card: "#0a0a0a",
+              "card-foreground": "#e5e7eb",
+              primary: "#1f2937",
+              "primary-foreground": "#ffffff",
+              secondary: "#f8f9fa",
+              "secondary-foreground": "#6b7280",
+              muted: "#f8f9fa",
+              "muted-foreground": "#9ca3af",
+              accent: "#3b82f6",
+              "accent-foreground": "#ffffff",
+              border: "#e5e7eb",
+              success: "#10b981",
+            },
+            borderRadius: {
+              lg: "0.75rem",
+              md: "0.5rem",
+              sm: "0.375rem",
+              xs: "0.25rem",
+            },
+          },
+          fontFamily: {
+            sans: ["Inter", "ui-sans-serif", "system-ui", "sans-serif"],
+            mono: ["ui-monospace", "SFMono-Regular", "Menlo", "Consolas", "monospace"],
+          },
+        },
+      };
+    </script>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
-            margin: 0;
-            height: 100vh;
-            background-image: url('squaerds.jpg.png');
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            color: white;
-            position: relative;
-            transition: all 0.5s ease;
-            min-height: 100vh;
-            overflow-x: hidden;
-        }
-        /* Loading Screen */
-        
-        .loading {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: #000000;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-            animation: fadeOut 0.5s ease-out 2.5s forwards;
-        }
-        
-        .loading-spinner {
-            width: 50px;
-            height: 50px;
-            border: 3px solid rgba(255, 255, 255, 0.3);
-            border-top: 3px solid white;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-        }
-        
-        @keyframes spin {
-            0% {
-                transform: rotate(0deg);
-            }
-            100% {
-                transform: rotate(360deg);
-            }
-        }
-        
-        @keyframes fadeOut {
-            to {
-                opacity: 0;
-                visibility: hidden;
-            }
-        }
-        /* Top Bar */
-        
-        .top-bar {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 70px;
-            background: transparent;
-            backdrop-filter: none;
-            border-bottom: none;
-            z-index: 10;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 0 30px;
-            position: relative;
-        }
-        
-        .nav-left {
-            display: flex;
-            align-items: center;
-            gap: 40px;
-            margin-left: 60px;
-        }
-        /* Logo style */
-        
-        .logo {
-            font-size: 1.5rem;
-            font-weight: 800;
-            color: white;
-            text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.7);
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        
-        .logo:hover {
-            opacity: 0.8;
-        }
-        /* Menu */
-        
-        .nav-menu {
-            display: flex;
-            gap: 30px;
-        }
-        
-        .nav-item {
-            color: rgba(255, 255, 255, 0.8);
-            text-decoration: none;
-            font-size: 14px;
-            font-weight: 500;
-            transition: all 0.3s ease;
-            cursor: pointer;
-        }
-        
-        .nav-item:hover {
-            color: white;
-        }
-        /* Try WYRM button */
-        
-        .try-wyrm {
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            color: white;
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-size: 14px;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            position: absolute;
-            right: 60px;
-        }
-        
-        .try-wyrm:hover {
-            background: rgba(255, 255, 255, 0.2);
-            border-color: rgba(255, 255, 255, 0.3);
-        }
-        /* Scrollable Sections */
-        
-        .main-content {
-            position: relative;
-            z-index: 1;
-        }
-        
-        .section {
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 80px 40px 40px 40px;
-            position: relative;
-        }
-        
-        .section-content {
-            max-width: 1200px;
-            width: 100%;
-            text-align: center;
-            color: white;
-        }
-        /* Hero Section */
-        
-        .hero-section {
-            background: transparent;
-        }
-        
-        .hero-title {
-            font-size: 4rem;
-            font-weight: 800;
-            margin-bottom: 20px;
-            text-shadow: 2px 2px 20px rgba(0, 0, 0, 0.3);
-            line-height: 1.1;
-        }
-        
-        .hero-subtitle {
-            font-size: 1.5rem;
-            font-weight: 300;
-            margin-bottom: 40px;
-            opacity: 0.9;
-        }
-        
-        .hero-description {
-            font-size: 1.1rem;
-            margin-bottom: 50px;
-            opacity: 0.8;
-            max-width: 600px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-        /* Image Section */
-        
-        .image-section {
-            background: #000000;
-            position: relative;
-            overflow: hidden;
-            min-height: 100vh;
-            padding: 0;
-            border: none;
-            margin: 0;
-        }
-        
-        .image-container {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-        }
-        
-        .section-image {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            z-index: 1;
-        }
-        /* Particles */
-        
-        .particle {
-            position: absolute;
-            width: 4px;
-            height: 4px;
-            background: rgba(255, 255, 255, 0.6);
-            border-radius: 50%;
-            pointer-events: none;
-            transition: transform 0.8s ease-out;
-            z-index: 0;
-        }
-        /* xAI Style Input Box - Only on first page */
-        
-        .xai-input-container {
-            position: fixed;
-            bottom: 150px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 90%;
-            max-width: 600px;
-            z-index: 10;
-            transition: all 0.5s ease;
-        }
-        
-        .xai-input-container.hidden {
-            opacity: 0;
-            transform: translateX(-50%) translateY(50px);
-            pointer-events: none;
-        }
-        
-        .xai-input-container.chat-active {
-            display: none;
-        }
-        
-        .xai-input-box {
-            background: rgba(0, 0, 0, 0.7);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            border-radius: 25px;
-            padding: 20px 24px;
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-            transition: all 0.3s ease;
-            min-height: 60px;
-        }
-        
-        .xai-input-box:hover {
-            border-color: rgba(255, 255, 255, 0.25);
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
-        }
-        
-        .xai-input-box:focus-within {
-            border-color: #667eea;
-            box-shadow: 0 0 0 2px rgba(102, 126, 234, 0.2), 0 15px 40px rgba(0, 0, 0, 0.4);
-        }
-        
-        .xai-input {
-            flex: 1;
-            background: transparent;
-            border: none;
-            color: white;
-            font-size: 16px;
-            outline: none;
-            font-weight: 400;
-            resize: none;
-            min-height: 40px;
-            max-height: 200px;
-            line-height: 1.5;
-            font-family: inherit;
-            overflow-y: auto;
-            word-wrap: break-word;
-            word-break: break-word;
-        }
-        
-        .xai-input::placeholder {
-            color: rgba(255, 255, 255, 0.6);
-        }
-        
-        .xai-send-icon {
-            width: 24px;
-            height: 24px;
-            color: rgba(255, 255, 255, 0.6);
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
-        
-        .xai-send-icon:hover {
-            color: #667eea;
-            transform: scale(1.1);
-        }
-        /* Transparent Chat Area */
-        
-        .fullscreen-chat {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.3);
-            backdrop-filter: blur(10px);
-            z-index: 5;
-            display: none;
-            flex-direction: column;
-            overflow: hidden;
-        }
-        
-        .fullscreen-chat.active {
-            display: flex;
-        }
-        /* Prevent body scroll when chat is active */
-        
-        body.chat-active {
-            overflow: hidden;
-        }
-        /* Chat Top Bar */
-        
-        .chat-top-bar {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 70px;
-            background: transparent;
-            backdrop-filter: none;
-            border-bottom: none;
-            z-index: 6;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 0 30px;
-            position: relative;
-        }
-        
-        .chat-nav-left {
-            display: flex;
-            align-items: center;
-            gap: 40px;
-            margin-left: 60px;
-        }
-        
-        .chat-logo {
-            font-size: 1.5rem;
-            font-weight: 800;
-            color: white;
-            text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.7);
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        
-        .chat-logo:hover {
-            opacity: 0.8;
-        }
-        
-        .chat-nav-menu {
-            display: flex;
-            gap: 30px;
-        }
-        
-        .chat-nav-item {
-            color: rgba(255, 255, 255, 0.8);
-            text-decoration: none;
-            font-size: 14px;
-            font-weight: 500;
-            transition: all 0.3s ease;
-            cursor: pointer;
-        }
-        
-        .chat-nav-item:hover {
-            color: white;
-        }
-        
-        .chat-try-wyrm {
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            color: white;
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-size: 14px;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            position: absolute;
-            right: 60px;
-        }
-        
-        .chat-try-wyrm:hover {
-            background: rgba(255, 255, 255, 0.2);
-            border-color: rgba(255, 255, 255, 0.3);
-        }
-        
-        .chat-messages {
-            flex: 1;
-            overflow-y: auto;
-            padding: 80px 30px 200px 30px;
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-            position: relative;
-        }
-        
-        .message {
-            display: flex;
-            align-items: flex-start;
-            gap: 12px;
-            max-width: 80%;
-            margin-bottom: 15px;
-        }
-        
-        .message.user {
-            align-self: flex-end;
-            flex-direction: row-reverse;
-        }
-        
-        .message.ai {
-            align-self: flex-start;
-        }
-        
-        .message-content {
-            font-size: 15px;
-            line-height: 1.6;
-            word-wrap: break-word;
-            word-break: break-word;
-            white-space: pre-wrap;
-            background: rgba(255, 255, 255, 0.1);
-            padding: 16px 20px;
-            border-radius: 18px;
-            backdrop-filter: blur(10px);
-            max-width: 100%;
-            overflow-wrap: break-word;
-        }
-        
-        .message.user .message-content {
-            color: white;
-            background: rgba(102, 126, 234, 0.8);
-        }
-        
-        .message.ai .message-content {
-            color: white;
-            background: rgba(255, 255, 255, 0.1);
-        }
-        
-        .chat-input-area {
-            padding: 20px;
-            border-top: none;
-            display: flex;
-            justify-content: center;
-            position: fixed;
-            bottom: 50px;
-            left: 0;
-            right: 0;
-            z-index: 7;
-        }
-        
-        .chat-input-container {
-            background: rgba(0, 0, 0, 0.7);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            border-radius: 25px;
-            padding: 20px 24px;
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-            transition: all 0.3s ease;
-            min-height: 60px;
-            width: 90%;
-            max-width: 600px;
-        }
-        
-        .chat-input-container:hover {
-            border-color: rgba(255, 255, 255, 0.25);
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
-        }
-        
-        .chat-input-container:focus-within {
-            border-color: #667eea;
-            box-shadow: 0 0 0 2px rgba(102, 126, 234, 0.2), 0 15px 40px rgba(0, 0, 0, 0.4);
-        }
-        
-        .chat-input {
-            flex: 1;
-            background: transparent;
-            border: none;
-            color: white;
-            font-size: 16px;
-            outline: none;
-            font-weight: 400;
-            resize: none;
-            min-height: 40px;
-            max-height: 200px;
-            line-height: 1.5;
-            font-family: inherit;
-            overflow-y: auto;
-            word-wrap: break-word;
-            word-break: break-word;
-        }
-        
-        .chat-input::placeholder {
-            color: rgba(255, 255, 255, 0.6);
-        }
-        
-        .chat-send-button {
-            width: 24px;
-            height: 24px;
-            color: rgba(255, 255, 255, 0.6);
-            cursor: pointer;
-            transition: all 0.2s ease;
-            background: none;
-            border: none;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        .chat-send-button:hover {
-            color: #667eea;
-            transform: scale(1.1);
-        }
-        
-        .chat-send-button:disabled {
-            color: rgba(255, 255, 255, 0.3);
-            cursor: not-allowed;
-            transform: none;
-        }
-        /* Scrollbar styling */
-        
-        .chat-messages::-webkit-scrollbar {
-            width: 6px;
-        }
-        
-        .chat-messages::-webkit-scrollbar-track {
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 3px;
-        }
-        
-        .chat-messages::-webkit-scrollbar-thumb {
-            background: rgba(255, 255, 255, 0.3);
-            border-radius: 3px;
-        }
-        
-        .chat-messages::-webkit-scrollbar-thumb:hover {
-            background: rgba(255, 255, 255, 0.5);
-        }
-        /* Typing indicator */
-        
-        .typing-indicator {
-            display: flex;
-            align-items: center;
-            gap: 4px;
-            padding: 12px 16px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 18px;
-            color: rgba(255, 255, 255, 0.8);
-        }
-        
-        .typing-dot {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.6);
-            animation: typing 1.4s ease-in-out infinite;
-        }
-        
-        .typing-dot:nth-child(2) {
-            animation-delay: 0.2s;
-        }
-        
-        .typing-dot:nth-child(3) {
-            animation-delay: 0.4s;
-        }
-        
-        @keyframes typing {
-            0%,
-            60%,
-            100% {
-                transform: translateY(0);
-                opacity: 0.5;
-            }
-            30% {
-                transform: translateY(-10px);
-                opacity: 1;
-            }
-        }
-        /* API Modal */
-        
-        .api-modal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.8);
-            backdrop-filter: blur(10px);
-            z-index: 200;
-            display: none;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-        }
-        
-        .api-modal.active {
-            display: flex;
-        }
-        
-        .api-content {
-            background: rgba(0, 0, 0, 0.9);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 20px;
-            padding: 40px;
-            max-width: 800px;
-            width: 100%;
-            max-height: 80vh;
-            overflow-y: auto;
-            color: white;
-            position: relative;
-        }
-        
-        .api-close {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            background: none;
-            border: none;
-            color: white;
-            font-size: 24px;
-            cursor: pointer;
-            opacity: 0.7;
-            transition: opacity 0.3s ease;
-        }
-        
-        .api-close:hover {
-            opacity: 1;
-        }
-        
-        .api-title {
-            font-size: 2rem;
-            font-weight: 700;
-            margin-bottom: 30px;
-            color: #667eea;
-        }
-        
-        .api-section {
-            margin-bottom: 30px;
-        }
-        
-        .api-section h3 {
-            font-size: 1.3rem;
-            font-weight: 600;
-            margin-bottom: 15px;
-            color: white;
-        }
-        
-        .api-code {
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 10px;
-            padding: 20px;
-            font-family: 'Courier New', monospace;
-            font-size: 14px;
-            line-height: 1.5;
-            overflow-x: auto;
-            white-space: pre-wrap;
-            color: #e0e0e0;
-        }
-        
-        .api-description {
-            font-size: 1rem;
-            line-height: 1.6;
-            opacity: 0.9;
-            margin-bottom: 20px;
-        }
-        /* Mobile responsiveness */
-        
-        @media (max-width: 768px) {
-            .logo,
-            .chat-logo {
-                font-size: 1.2rem;
-            }
-            .nav-menu,
-            .chat-nav-menu {
-                display: none;
-            }
-            .xai-input-container {
-                bottom: 110px;
-                width: 95%;
-            }
-            .chat-messages,
-            .chat-input-area {
-                padding: 15px 20px;
-            }
-            .message {
-                max-width: 90%;
-            }
-            .hero-title {
-                font-size: 2.5rem;
-            }
-            .hero-subtitle {
-                font-size: 1.2rem;
-            }
-        }
-        
-        @media (max-width: 480px) {
-            .logo,
-            .chat-logo {
-                font-size: 1rem;
-            }
-            .xai-input-container {
-                bottom: 90px;
-                width: 98%;
-            }
-            .chat-messages,
-            .chat-input-area {
-                padding: 12px 15px;
-            }
-            .hero-title {
-                font-size: 2rem;
-            }
-        }
+      html, body { height: 100%; }
+      body { font-family: Inter, ui-sans-serif, system-ui, sans-serif; }
     </style>
-</head>
+  </head>
+  <body class="bg-background text-foreground">
+    <!-- Header -->
+    <header class="sticky top-0 z-50 bg-white border-b border-border">
+      <div class="mx-auto max-w-[1200px] px-4 py-3 flex items-center gap-4">
+        <!-- Logo -->
+        <a href="#" class="flex items-center gap-2 font-semibold text-xl">
+          <span class="inline-flex h-8 w-8 items-center justify-center rounded-md bg-black text-white">x</span>
+          <span>xAI Docs</span>
+        </a>
 
-<body>
-    <!-- Loading Screen -->
-    <div class="loading">
-        <div class="loading-spinner"></div>
-    </div>
+        <!-- Center Nav -->
+        <nav class="mx-auto hidden md:flex items-center gap-6 text-sm">
+          <a href="#docs" class="text-foreground/80 hover:text-foreground transition">Docs</a>
+          <a href="#api-reference" class="text-foreground/80 hover:text-foreground transition">API Reference</a>
+          <a href="#cookbook" class="text-foreground/80 hover:text-foreground transition">Cookbook</a>
+        </nav>
 
-    <!-- Top Bar -->
-    <div class="top-bar" id="topBar">
-        <div class="nav-left">
-            <div class="logo" onclick="goToHome()">AI WYRM</div>
-            <div class="nav-menu">
-                <div class="nav-item" onclick="goToHome()">Home</div>
-                <div class="nav-item" onclick="showAPIInfo()">API</div>
-                <div class="nav-item">Support</div>
-                <div class="nav-item">Info</div>
-            </div>
+        <!-- Search -->
+        <div class="ml-auto flex-1 max-w-md hidden md:block">
+          <div class="relative">
+            <input
+              type="text"
+              placeholder="Search documentation..."
+              class="w-full rounded-md border border-border bg-white px-3 py-2 pr-16 text-sm outline-none focus:ring-2 focus:ring-accent/40"
+            />
+            <span class="pointer-events-none absolute right-2 top-1/2 -translate-y-1/2 text-[11px] text-muted-foreground border border-border rounded px-1.5 py-0.5">
+              Ctrl + K
+            </span>
+          </div>
         </div>
-        <div class="try-wyrm" onclick="startChatFromButton()">Try WYRM</div>
-    </div>
 
-    <!-- Main Content with Scrollable Sections -->
-    <div class="main-content">
-        <!-- Hero Section -->
-        <section class="section hero-section">
-            <div class="section-content">
-                <h1 class="hero-title">AI WYRM</h1>
-                <p class="hero-subtitle">Advanced AI Assistant</p>
-                <p class="hero-description">Experience the future of artificial intelligence with AI WYRM. Powered by cutting-edge technology, designed for seamless interaction.</p>
-            </div>
-        </section>
+        <!-- Theme toggle (visual only) -->
+        <button class="h-9 w-9 inline-flex items-center justify-center rounded-md border border-border hover:bg-muted transition" title="Toggle theme">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-foreground/80" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+            <path d="M12 3v1m0 16v1m8-9h1M3 12H2m14.95 6.95.7.7M5.34 5.34l-.7-.7m12.02 0 .7-.7M5.34 18.66l-.7.7" stroke-width="2" stroke-linecap="round"/>
+            <circle cx="12" cy="12" r="4" stroke-width="2"/>
+          </svg>
+        </button>
 
-        <!-- Image Section -->
-        <section class="section image-section">
-            <div class="image-container">
-                <img src="2.sayfa.png" alt="AI WYRM Görsel" class="section-image" onerror="this.style.display='none';">
-            </div>
-        </section>
+        <!-- Login -->
+        <a href="#" class="inline-flex items-center justify-center rounded-md bg-primary text-white px-4 py-2 text-sm hover:opacity-90 transition">
+          Login
+        </a>
+      </div>
+    </header>
 
-
-    </div>
-
-    <!-- Floating Particles -->
-    <div class="particle"></div>
-    <div class="particle"></div>
-    <div class="particle"></div>
-    <div class="particle"></div>
-
-    <!-- xAI Style Input Box -->
-    <div class="xai-input-container">
-        <div class="xai-input-box">
-            <textarea id="xaiInput" placeholder="Ask AI Wyrm something..." class="xai-input" rows="2"></textarea>
-            <svg class="xai-send-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <line x1="22" y1="2" x2="11" y2="13"></line>
-                <polygon points="22,2 15,22 11,13 2,9"></polygon>
-            </svg>
-        </div>
-    </div>
-
-    <!-- API Modal -->
-    <div class="api-modal" id="apiModal">
-        <div class="api-content">
-            <button class="api-close" onclick="closeAPIModal()">&times;</button>
-            <h2 class="api-title">AI WYRM - Yapay Zeka API</h2>
-
-            <div class="api-section">
-                <h3>AI API Endpoint</h3>
-                <p class="api-description">AI WYRM, gelişmiş yapay zeka teknolojisi ile güçlendirilmiş API hizmeti sunar.</p>
-                <div class="api-code">https://api.groq.com/openai/v1/chat/completions</div>
+    <!-- Page -->
+    <div class="mx-auto max-w-[1200px] px-4 py-8">
+      <div class="grid grid-cols-1 md:grid-cols-[280px_1fr] gap-8">
+        <!-- Sidebar -->
+        <aside class="bg-white border border-border rounded-lg p-4 h-max">
+          <div class="space-y-6 text-sm">
+            <!-- Getting Started -->
+            <div>
+              <div class="mb-2 font-semibold text-foreground">Getting Started</div>
+              <nav class="grid gap-1">
+                <a href="#docs" class="px-2 py-1.5 rounded hover:bg-muted text-foreground/80 hover:text-foreground">Overview</a>
+                <a href="#introduction" class="px-2 py-1.5 rounded hover:bg-muted text-foreground/80 hover:text-foreground">Introduction</a>
+                <a href="#tutorial" class="px-2 py-1.5 rounded hover:bg-muted text-foreground/80 hover:text-foreground">Tutorial</a>
+                <a href="#models-pricing" class="px-2 py-1.5 rounded hover:bg-muted text-foreground/80 hover:text-foreground">Models & Pricing</a>
+                <a href="#whats-new" class="px-2 py-1.5 rounded hover:bg-muted text-foreground/80 hover:text-foreground">
+                  What’s New
+                  <span class="ml-2 text-[10px] rounded bg-primary text-white px-1 py-0.5">new</span>
+                </a>
+              </nav>
             </div>
 
-            <div class="api-section">
-                <h3>Yapay Zeka API Kullanımı</h3>
-                <p class="api-description">AI WYRM API'sini kullanarak yapay zeka destekli uygulamalar geliştirebilirsiniz:</p>
-                <div class="api-code">curl https://api.groq.com/openai/v1/chat/completions -s \ -H "Content-Type: application/json" \ -H "Authorization: Bearer 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" \ -d '{ "model": "meta-llama/llama-4-scout-17b-16e-instruct",
-                    "messages": [{ "role": "user", "content": "Explain the importance of fast language models" }] }'
+            <!-- Key Information -->
+            <div>
+              <div class="mb-2 font-semibold text-foreground">Key Information</div>
+              <nav class="grid gap-1">
+                <a href="#billing" class="px-2 py-1.5 rounded hover:bg-muted text-foreground/80 hover:text-foreground">Billing</a>
+                <a href="#rate-limits" class="px-2 py-1.5 rounded hover:bg-muted text-foreground/80 hover:text-foreground">Rate Limits</a>
+                <a href="#endpoints" class="px-2 py-1.5 rounded hover:bg-muted text-foreground/80 hover:text-foreground">Endpoints</a>
+                <a href="#collections" class="px-2 py-1.5 rounded hover:bg-muted text-foreground/80 hover:text-foreground">
+                  Collections
+                  <span class="ml-2 text-[10px] rounded bg-primary text-white px-1 py-0.5">new</span>
+                </a>
+                <a href="#keys" class="px-2 py-1.5 rounded hover:bg-muted text-foreground/80 hover:text-foreground">API Keys</a>
+                <a href="#usage" class="px-2 py-1.5 rounded hover:bg-muted text-foreground/80 hover:text-foreground">Usage</a>
+              </nav>
+            </div>
+
+            <!-- Guides -->
+            <div>
+              <div class="mb-2 font-semibold text-foreground">Guides</div>
+              <nav class="grid gap-1">
+                <a href="#tool-use" class="px-2 py-1.5 rounded hover:bg-muted text-foreground/80 hover:text-foreground">Tool Use (Function Calling)</a>
+                <a href="#structured-outputs" class="px-2 py-1.5 rounded hover:bg-muted text-foreground/80 hover:text-foreground">Structured Outputs</a>
+                <a href="#images" class="px-2 py-1.5 rounded hover:bg-muted text-foreground/80 hover:text-foreground">Images & OCR</a>
+                <a href="#reasoning" class="px-2 py-1.5 rounded hover:bg-muted text-foreground/80 hover:text-foreground">Reasoning</a>
+                <a href="#streaming" class="px-2 py-1.5 rounded hover:bg-muted text-foreground/80 hover:text-foreground">Streaming</a>
+              </nav>
+            </div>
+
+            <!-- Resources -->
+            <div>
+              <div class="mb-2 font-semibold text-foreground">Resources</div>
+              <nav class="grid gap-1">
+                <a href="#discord" class="px-2 py-1.5 rounded hover:bg-muted text-foreground/80 hover:text-foreground">Discord Community</a>
+                <a href="#faq" class="px-2 py-1.5 rounded hover:bg-muted text-foreground/80 hover:text-foreground">FAQ</a>
+              </nav>
+            </div>
+
+            <!-- Footer in Sidebar -->
+            <div class="pt-4 border-t border-border">
+              <div class="flex items-center gap-2 text-sm">
+                <span class="h-2 w-2 rounded-full bg-success"></span>
+                <span class="text-foreground/80">Service status: <span class="font-medium text-foreground">Available</span></span>
+              </div>
+              <div class="mt-3 grid gap-1">
+                <a href="#discord" class="text-accent hover:underline">Join Discord</a>
+                <a href="mailto:support@x.ai" class="text-accent hover:underline">support@x.ai</a>
+              </div>
+            </div>
+          </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="min-w-0">
+          <!-- Breadcrumb -->
+          <nav class="text-sm text-muted-foreground mb-4">
+            <ol class="flex items-center gap-2">
+              <li><a href="#" class="hover:underline">Docs</a></li>
+              <li>/</li>
+              <li class="text-foreground">Getting started</li>
+            </ol>
+          </nav>
+
+          <!-- Title -->
+          <h1 class="text-3xl font-bold mb-2">Welcome</h1>
+          <p class="text-foreground/70 mb-6">
+            xAI geliştirici dökümantasyonuna hoş geldiniz. Grok modelleri; çoklu modalite,
+            uzun bağlam (context window), fonksiyon çağırma ve yapılandırılmış çıktılar gibi güçlü
+            yeteneklere sahiptir.
+          </p>
+
+          <!-- Hero Card -->
+          <section id="docs" class="mb-8">
+            <div class="relative rounded-lg overflow-hidden bg-card text-card-foreground">
+              <!-- Background image -->
+              <div class="absolute inset-0">
+                <img
+                  alt="Grok 4 Fast"
+                  src="https://docs.x.ai/_next/image?url=https%3A%2F%2Fdata.x.ai%2Fgrok-4-mini.webp&w=1920&q=75"
+                  class="h-full w-full object-cover opacity-40"
+                />
+                <div class="absolute inset-0 bg-gradient-to-tr from-black/60 via-black/40 to-transparent"></div>
+              </div>
+              <!-- Content -->
+              <div class="relative p-8">
+                <h2 class="text-2xl font-semibold mb-2">Grok 4 Fast</h2>
+                <p class="text-card-foreground/80 mb-6 max-w-2xl">
+                  Çok modlu, 2,000,000 token bağlam penceresi, düşük gecikme ve düşük maliyet odaklı
+                  yeni nesil Grok model ailesi.
+                </p>
+                <div class="grid gap-4 md:grid-cols-3">
+                  <div class="rounded-md border border-white/10 bg-white/5 p-4">
+                    <div class="text-sm text-card-foreground/70">Modalities</div>
+                    <div class="font-medium">Text, Image</div>
+                  </div>
+                  <div class="rounded-md border border-white/10 bg-white/5 p-4">
+                    <div class="text-sm text-card-foreground/70">Context window</div>
+                    <div class="font-medium">2,000,000</div>
+                  </div>
+                  <div class="rounded-md border border-white/10 bg-white/5 p-4">
+                    <div class="text-sm text-card-foreground/70">Performance</div>
+                    <div class="font-medium">Lightning fast · Low cost</div>
+                  </div>
                 </div>
-            </div>
 
-            <div class="api-section">
-                <h3>AI Model Özellikleri</h3>
-                <p class="api-description">• Gelişmiş Dil Modeli: meta-llama/llama-4-scout-17b-16e-instruct<br> • Hızlı AI Yanıt Süresi<br> • Türkçe Yapay Zeka Desteği<br> • SquaerdsSOFT AI Teknolojisi<br> • Akıllı Sohbet Sistemi<br> • Doğal Dil İşleme</p>
-            </div>
-
-            <div class="api-section">
-                <h3>AI API Parametreleri</h3>
-                <div class="api-code">{ "model": "meta-llama/llama-4-scout-17b-16e-instruct", "messages": [ { "role": "system", "content": "Sen AI WYRM yapay zeka asistanısın..." }, { "role": "user", "content": "Yapay zeka ile ilgili soru" } ], "temperature": 0.7, "stream":
-                    false }
+                <div class="mt-6 grid gap-2 md:grid-cols-2">
+                  <div class="flex items-center gap-2 text-sm">
+                    <span class="inline-flex h-5 w-5 items-center justify-center rounded bg-white/10">⚙️</span>
+                    Function calling
+                  </div>
+                  <div class="flex items-center gap-2 text-sm">
+                    <span class="inline-flex h-5 w-5 items-center justify-center rounded bg-white/10">📐</span>
+                    Structured outputs
+                  </div>
+                  <div class="flex items-center gap-2 text-sm">
+                    <span class="inline-flex h-5 w-5 items-center justify-center rounded bg-white/10">🧠</span>
+                    Reasoning
+                  </div>
+                  <div class="flex items-center gap-2 text-sm">
+                    <span class="inline-flex h-5 w-5 items-center justify-center rounded bg-white/10">⚡</span>
+                    Lightning fast · Low cost
+                  </div>
                 </div>
+              </div>
             </div>
+          </section>
 
-            <div class="api-section">
-                <h3>AI Kullanım Alanları</h3>
-                <p class="api-description">• Chatbot ve Sanal Asistan Geliştirme<br> • Doğal Dil İşleme Uygulamaları<br> • İçerik Üretimi ve Analizi<br> • Eğitim ve Öğrenme Sistemleri<br> • Müşteri Hizmetleri Otomasyonu</p>
+          <!-- Quick links -->
+          <section id="jump-right-in" class="mb-10">
+            <h3 class="text-xl font-semibold mb-4">Jump right in</h3>
+            <div class="grid gap-4 md:grid-cols-3">
+              <!-- Quickstart -->
+              <a href="#quickstart" class="group block rounded-lg border border-border p-5 hover:shadow-sm hover:-translate-y-0.5 transition">
+                <div class="flex items-start justify-between">
+                  <div class="font-medium">Quickstart</div>
+                  <span class="text-muted-foreground">→</span>
+                </div>
+                <p class="mt-2 text-sm text-foreground/70">
+                  API anahtarı oluşturun ve ilk isteğinizi yapın.
+                </p>
+                <div class="mt-4 inline-flex items-center text-sm text-accent group-hover:underline">Başla</div>
+              </a>
+              <!-- Tool Use -->
+              <a href="#tool-use" class="group block rounded-lg border border-border p-5 hover:shadow-sm hover:-translate-y-0.5 transition">
+                <div class="flex items-start justify-between">
+                  <div class="font-medium">Tool Use</div>
+                  <span class="text-muted-foreground">→</span>
+                </div>
+                <p class="mt-2 text-sm text-foreground/70">
+                  Fonksiyon çağırma ile araçları güvenle çalıştırın.
+                </p>
+                <div class="mt-4 inline-flex items-center text-sm text-accent group-hover:underline">İncele</div>
+              </a>
+              <!-- Images -->
+              <a href="#images" class="group block rounded-lg border border-border p-5 hover:shadow-sm hover:-translate-y-0.5 transition">
+                <div class="flex items-start justify-between">
+                  <div class="font-medium">Images</div>
+                  <span class="text-muted-foreground">→</span>
+                </div>
+                <p class="mt-2 text-sm text-foreground/70">
+                  Görsel analiz ve OCR örnekleri.
+                </p>
+                <div class="mt-4 inline-flex items-center text-sm text-accent group-hover:underline">Göz at</div>
+              </a>
             </div>
-        </div>
+          </section>
+
+          <!-- Footer info -->
+          <section class="mb-16">
+            <p class="italic text-foreground/70">
+              Geliştirici olmayan servisler için lütfen
+              <a href="https://grok.com" target="_blank" class="text-accent hover:underline">Grok.com</a>,
+              <a href="https://apps.apple.com" target="_blank" class="text-accent hover:underline">iOS uygulaması</a>,
+              <a href="https://play.google.com" target="_blank" class="text-accent hover:underline">Android uygulaması</a>
+              ya da <a href="#" class="text-accent hover:underline">karşılaştırma tablosu</a> sayfalarına bakın.
+            </p>
+
+            <div class="mt-6">
+              <h4 class="text-lg font-semibold mb-2">Questions and feedback</h4>
+              <p class="text-foreground/70">
+                Görüş ve destek için bize
+                <a href="mailto:support@x.ai" class="text-accent hover:underline">support@x.ai</a>
+                adresinden ulaşabilirsiniz.
+              </p>
+              <p class="mt-4">Happy Grokking! 😎</p>
+            </div>
+          </section>
+        </main>
+      </div>
     </div>
 
-    <!-- Fullscreen Chat -->
-    <div class="fullscreen-chat" id="fullscreenChat">
-        <!-- Chat Top Bar -->
-        <div class="chat-top-bar">
-            <div class="chat-nav-left">
-                <div class="chat-logo" onclick="goToHome()">AI WYRM</div>
-                <div class="chat-nav-menu">
-                    <div class="chat-nav-item" onclick="goToHome()">Home</div>
-                    <div class="chat-nav-item" onclick="showAPIInfo()">API</div>
-                    <div class="chat-nav-item">Support</div>
-                    <div class="chat-nav-item">Info</div>
-                </div>
-            </div>
-            <div class="chat-try-wyrm" onclick="startChatFromButton()">Try WYRM</div>
-        </div>
-
-        <div class="chat-messages" id="chatMessages">
-
-        </div>
-        <div class="chat-input-area">
-            <div class="chat-input-container">
-                <textarea id="chatInput" placeholder="Type your message..." class="chat-input" rows="1"></textarea>
-                <button id="chatSendButton" class="chat-send-button">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <line x1="22" y1="2" x2="11" y2="13"></line>
-                        <polygon points="22,2 15,22 11,13 2,9"></polygon>
-                    </svg>
-                </button>
-            </div>
-        </div>
-    </div>
-
+    <!-- Optional: Ctrl+K focus for search -->
     <script>
-        // Global variables
-        const xaiInput = document.getElementById('xaiInput');
-        const xaiSendIcon = document.querySelector('.xai-send-icon');
-        const fullscreenChat = document.getElementById('fullscreenChat');
-        const chatMessages = document.getElementById('chatMessages');
-        const chatInput = document.getElementById('chatInput');
-        const chatSendButton = document.getElementById('chatSendButton');
-        const topBar = document.getElementById('topBar');
-
-        // Conversation memory system
-        let conversationHistory = [];
-        let messageCounter = 0;
-
-        // Main input box functionality
-        xaiInput.addEventListener('focus', function() {
-            this.parentElement.style.transform = 'scale(1.02)';
-        });
-
-        xaiInput.addEventListener('blur', function() {
-            this.parentElement.style.transform = 'scale(1)';
-        });
-
-        // Start chat from main input
-        function startChat() {
-            const message = xaiInput.value.trim();
-            if (!message) return;
-
-            // Switch to fullscreen chat mode
-            openChat();
-
-            // Transfer message to fullscreen chat
-            if (message) {
-                addMessage(message, 'user');
-                sendToAI(message);
-                xaiInput.value = '';
-            }
+      const searchInput = document.querySelector('input[placeholder="Search documentation..."]');
+      window.addEventListener("keydown", (e) => {
+        if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "k") {
+          e.preventDefault();
+          if (searchInput) {
+            searchInput.focus();
+            searchInput.select();
+          }
         }
-
-        xaiSendIcon.addEventListener('click', startChat);
-        xaiInput.addEventListener('keypress', function(e) {
-            if (e.key === 'Enter' && !e.shiftKey) {
-                e.preventDefault();
-                startChat();
-            }
-        });
-
-        // Chat functions
-        function openChat() {
-            fullscreenChat.classList.add('active');
-            document.querySelector('.xai-input-container').classList.add('chat-active');
-            document.body.classList.add('chat-active');
-            chatInput.focus();
-        }
-
-        function closeChat() {
-            fullscreenChat.classList.remove('active');
-            document.querySelector('.xai-input-container').classList.remove('chat-active');
-            document.body.classList.remove('chat-active');
-        }
-
-        // Home function
-        function goToHome() {
-            if (fullscreenChat.classList.contains('active')) {
-                closeChat();
-            }
-        }
-
-        // Try WYRM button function
-        function startChatFromButton() {
-            openChat();
-            chatInput.focus();
-        }
-
-        // Store message in conversation history
-        function storeMessage(content, type) {
-            messageCounter++;
-            const timestamp = new Date().toISOString();
-
-            conversationHistory.push({
-                id: messageCounter,
-                type: type,
-                content: content,
-                timestamp: timestamp,
-                category: categorizeMessage(content, type)
-            });
-        }
-
-        // Categorize messages for better memory
-        function categorizeMessage(content, type) {
-            if (type === 'user') {
-                const lowerContent = content.toLowerCase();
-
-                // Question categories
-                if (lowerContent.includes('nedir') || lowerContent.includes('ne demek') || lowerContent.includes('nasıl')) {
-                    return 'soru';
-                }
-                if (lowerContent.includes('kim') || lowerContent.includes('hangi') || lowerContent.includes('ne zaman')) {
-                    return 'bilgi_talebi';
-                }
-                if (lowerContent.includes('yardım') || lowerContent.includes('help')) {
-                    return 'yardim_talebi';
-                }
-                if (lowerContent.includes('önceki') || lowerContent.includes('daha önce') || lowerContent.includes('geçen')) {
-                    return 'gecmis_referans';
-                }
-                if (lowerContent.includes('merhaba') || lowerContent.includes('selam') || lowerContent.includes('hello')) {
-                    return 'selamlasma';
-                }
-
-                return 'genel';
-            } else {
-                return 'ai_cevap';
-            }
-        }
-
-        // Get conversation context for AI
-        function getConversationContext() {
-            return "";
-        }
-
-        // Add message function
-        function addMessage(content, type) {
-            // Store message in history
-            storeMessage(content, type);
-
-            const messageDiv = document.createElement('div');
-            messageDiv.className = `message ${type}`;
-
-            // Format the content for better readability
-            let formattedContent = content;
-            if (type === 'ai') {
-                // Add proper line breaks and formatting for AI messages
-                formattedContent = content
-                    .replace(/\n\n/g, '<br><br>')
-                    .replace(/\n/g, '<br>')
-                    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-                    .replace(/\*(.*?)\*/g, '<em>$1</em>')
-                    .replace(/`(.*?)`/g, '<code style="background: rgba(255,255,255,0.2); padding: 2px 4px; border-radius: 4px; font-family: monospace;">$1</code>');
-            }
-
-            messageDiv.innerHTML = `
-                <div class="message-content">${formattedContent}</div>
-            `;
-
-            chatMessages.appendChild(messageDiv);
-            chatMessages.scrollTop = chatMessages.scrollHeight;
-        }
-
-        // Typing indicator
-        function showTypingIndicator() {
-            const typingDiv = document.createElement('div');
-            typingDiv.className = 'message ai typing-message';
-            typingDiv.innerHTML = `
-                <div class="typing-indicator">
-                    <div class="typing-dot"></div>
-                    <div class="typing-dot"></div>
-                    <div class="typing-dot"></div>
-                </div>
-            `;
-
-            chatMessages.appendChild(typingDiv);
-            chatMessages.scrollTop = chatMessages.scrollHeight;
-            return typingDiv;
-        }
-
-        function removeTypingIndicator(typingElement) {
-            if (typingElement && typingElement.parentNode) {
-                typingElement.parentNode.removeChild(typingElement);
-            }
-        }
-
-        // Rate limiting variables
-        let messageCount = 0;
-        let lastResetTime = Date.now();
-        const MESSAGE_LIMIT = 25; // 25 messages per minute
-        const RESET_INTERVAL = 60000; // 1 minute in milliseconds
-
-        // Check if user is sending too many messages
-        function checkRateLimit() {
-            const now = Date.now();
-
-            // Reset counter every minute
-            if (now - lastResetTime > RESET_INTERVAL) {
-                messageCount = 0;
-                lastResetTime = now;
-            }
-
-            messageCount++;
-
-            if (messageCount > MESSAGE_LIMIT) {
-                return false; // Rate limit exceeded
-            }
-
-            return true; // OK to send
-        }
-
-        // Check if message seems random or unclear
-        function isRandomMessage(message) {
-            const trimmed = message.trim().toLowerCase();
-
-            // Check for very short random characters
-            if (trimmed.length <= 3 && /^[a-z]+$/.test(trimmed)) return true;
-
-            // Check for keyboard mashing patterns
-            const keyboardPatterns = [
-                /^[qwertyuiop]+$/i,
-                /^[asdfghjkl]+$/i,
-                /^[zxcvbnm]+$/i,
-                /^[123456789]+$/,
-                /^[!@#$%^&*()]+$/
-            ];
-
-            if (keyboardPatterns.some(pattern => pattern.test(trimmed))) return true;
-
-            // Check for repeated characters
-            if (/(.)\1{3,}/.test(trimmed)) return true;
-
-            // Check for very short nonsensical input
-            if (trimmed.length <= 5 && !/\s/.test(trimmed) && !/[aeiouüöıiç]/.test(trimmed)) return true;
-
-            return false;
-        }
-
-        // Generate friendly responses for unclear messages
-        function getFriendlyResponse(message) {
-            const responses = [
-                "Canınız sıkıldı galiba? 😊 Benimle sohbet etmek isterseniz, size nasıl yardımcı olabilirim?",
-                "Hmm, tam anlayamadım 🤔 Belki daha açık bir şekilde sorabilirsiniz? Ne hakkında konuşmak istiyorsunuz?",
-                "Rastgele tuşlara mı bastınız? 😄 Merak ettiğiniz bir şey varsa sormaktan çekinmeyin!",
-                "Sanırım bir şeyler yazmaya çalışıyorsunuz ama tam çözemedim 🤷‍♀️ Size nasıl yardımcı olabilirim?",
-                "Keyboardunuzla oynuyor musunuz? 😊 Benimle gerçek bir sohbet başlatmak isterseniz, herhangi bir konu hakkında soru sorabilirsiniz!",
-                "Bu biraz karışık geldi 😅 Belki şöyle başlayalım: Bugün nasılsınız? Neyle ilgili yardıma ihtiyacınız var?",
-                "Sanırım yanlışlıkla bir şeyler yazdınız 😊 Merak ettiğiniz bir konu var mı? Size yardımcı olmaktan mutluluk duyarım!",
-                "Hmm, bu mesajı çözmekte zorlanıyorum 🤔 Daha net bir soru sorarsanız size daha iyi yardımcı olabilirim!"
-            ];
-
-            return responses[Math.floor(Math.random() * responses.length)];
-        }
-
-        // Enhanced memory search function
-        function searchInHistory(query) {
-            const lowerQuery = query.toLowerCase();
-            const searchTerms = ['daha önce', 'önceki', 'geçen', 'az önce', 'demin', 'söylemiştim', 'demiştim', 'yazmıştım'];
-
-            if (searchTerms.some(term => lowerQuery.includes(term))) {
-                // Find the most recent user message that matches context
-                const userMessages = conversationHistory.filter(msg => msg.type === 'user').reverse();
-
-                if (userMessages.length > 1) {
-                    // Return the previous user message (not the current one)
-                    return userMessages[1];
-                }
-            }
-
-            return null;
-        }
-
-        // AI function - now works for all messages
-        async function sendToAI(message) {
-
-            // Check rate limit first
-            if (!checkRateLimit()) {
-                addMessage("Çok fazla mesaj gönderdiniz. Lütfen bir dakika bekleyip tekrar deneyin.", 'ai');
-                return;
-            }
-
-            const typingIndicator = showTypingIndicator();
-            chatSendButton.disabled = true;
-
-            try {
-                // Enhanced memory search for history questions
-                const previousMessage = searchInHistory(message);
-                let contextualMessage = message;
-
-                if (previousMessage) {
-                    contextualMessage = `Kullanıcının şu anki sorusu: "${message}"\n\nKullanıcının daha önce söylediği (referans verdiği mesaj): "${previousMessage.content}"\n\nLütfen kullanıcının daha önce söylediği mesajı tam olarak hatırla ve ona göre cevap ver.`;
-                }
-
-                // Get conversation context
-                const conversationContext = getConversationContext();
-                const fullMessage = contextualMessage + conversationContext;
-
-                const API_KEY = "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";
-                const API_URL = "https://api.groq.com/openai/v1/chat/completions";
-                const MODEL = "llama-3.3-70b-versatile";
-
-                const response = await fetch(API_URL, {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                        "Authorization": `Bearer ${API_KEY}`
-                    },
-                    body: JSON.stringify({
-                        messages: [{
-                            role: "system",
-                            content: `Sen AI WYRM'sin. SquaerdsSOFT tarafından geliştirildin. ChatGPT gibi profesyonel bir yapay zeka asistanısın.
-
-DAVRANIŞ KURALLARI:
-- Profesyonel ve resmi bir dil kullan
-- Emoji kullanma, hiçbir zaman
-- Bilgilendirici ve yardımcı ol
-- Net ve açık cevaplar ver
-- Türkçe cevap ver
-- Kendini sadece sorulduğunda tanıt: "Ben AI WYRM, SquaerdsSOFT tarafından geliştirilen bir yapay zeka asistanıyım"
-- Her mesajda kendini tanıtma, sadece kullanıcı sorduğunda
-
-HAFIZA KURALLARI:
-- Kullanıcı "daha önce ne demiştim?" veya benzeri sorduğunda, sadece onun tam mesajını yapıştır
-- "Önceki mesajımda" dediğinde, o mesajı bulup sadece o mesajı ver
-- Eski mesaja göre profesyonel cevap yazabilirsin`
-                        }, {
-                            role: "user",
-                            content: fullMessage
-                        }],
-                        model: MODEL,
-                        stream: false,
-                        temperature: 0.7
-                    })
-                });
-
-                removeTypingIndicator(typingIndicator);
-
-                if (response.ok) {
-                    const data = await response.json();
-                    const grokReply = data.choices[0].message.content || "Sohbet geçmişinizi bulamadım";
-                    addMessage(grokReply, 'ai');
-                } else if (response.status === 429) {
-                    addMessage("Çok fazla mesaj gönderdiniz. Lütfen bir dakika bekleyip tekrar deneyin.", 'ai');
-                } else {
-                    const errorData = await response.json().catch(() => ({}));
-                    console.error('API Error:', response.status, errorData);
-                    addMessage("Bir hata oluştu. Lütfen daha sonra tekrar deneyin.", 'ai');
-                }
-            } catch (error) {
-                removeTypingIndicator(typingIndicator);
-                console.error('Network Error:', error);
-                addMessage("Bağlantı hatası: İnternet bağlantınızı kontrol edin veya daha sonra tekrar deneyin.", 'ai');
-            }
-
-            chatSendButton.disabled = false;
-        }
-
-        // Chat input functionality
-        chatInput.addEventListener('keypress', function(e) {
-            if (e.key === 'Enter' && !e.shiftKey) {
-                e.preventDefault();
-                sendChatMessage();
-            }
-        });
-
-        chatSendButton.addEventListener('click', sendChatMessage);
-
-        function sendChatMessage() {
-            const message = chatInput.value.trim();
-            if (!message) return;
-
-            addMessage(message, 'user');
-            sendToAI(message);
-            chatInput.value = '';
-        }
-
-        // Auto-resize textarea
-        function autoResize(textarea) {
-            textarea.style.height = 'auto';
-            const newHeight = Math.min(textarea.scrollHeight, 200);
-            textarea.style.height = newHeight + 'px';
-
-            // Adjust container height if needed
-            const container = textarea.closest('.chat-input-container') || textarea.closest('.xai-input-box');
-            if (container) {
-                container.style.minHeight = Math.max(60, newHeight + 40) + 'px';
-            }
-        }
-
-        chatInput.addEventListener('input', function() {
-            autoResize(this);
-        });
-
-        xaiInput.addEventListener('input', function() {
-            autoResize(this);
-        });
-
-        // Page loading effect and particle positioning
-        window.addEventListener('load', function() {
-            // Position particles randomly
-            const particles = document.querySelectorAll('.particle');
-            particles.forEach(particle => {
-                const randomX = Math.random() * window.innerWidth;
-                const randomY = Math.random() * window.innerHeight;
-                particle.style.left = randomX + 'px';
-                particle.style.top = randomY + 'px';
-            });
-        });
-
-        // Mouse tracking effect for particles and central rods
-        document.addEventListener('mousemove', function(e) {
-            if (fullscreenChat.classList.contains('active')) return;
-
-            const particles = document.querySelectorAll('.particle');
-            particles.forEach((particle, index) => {
-                const speed = (index + 1) * 0.01;
-                const x = e.clientX * speed;
-                const y = e.clientY * speed;
-
-                setTimeout(() => {
-                    particle.style.transform = `translate(${x}px, ${y}px)`;
-                }, index * 100);
-            });
-
-
-        });
-
-        // API Modal functions
-        function showAPIInfo() {
-            document.getElementById('apiModal').classList.add('active');
-        }
-
-        function closeAPIModal() {
-            document.getElementById('apiModal').classList.remove('active');
-        }
-
-        // Close API modal with ESC key
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape') {
-                if (document.getElementById('apiModal').classList.contains('active')) {
-                    closeAPIModal();
-                } else if (fullscreenChat.classList.contains('active')) {
-                    closeChat();
-                }
-            }
-        });
-
-        // Initialize
-        document.addEventListener('DOMContentLoaded', function() {
-            // Remove loading screen after animation
-            setTimeout(() => {
-                const loading = document.querySelector('.loading');
-                if (loading) {
-                    loading.remove();
-                }
-            }, 3000);
-        });
+      });
     </script>
-    <script>
-        (function() {
-            function c() {
-                var b = a.contentDocument || a.contentWindow.document;
-                if (b) {
-                    var d = b.createElement('script');
-                    d.innerHTML = "window.__CF$cv$params={r:'975caf6376cf50a6',t:'MTc1NjMwOTQxMi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";
-                    b.getElementsByTagName('head')[0].appendChild(d)
-                }
-            }
-            if (document.body) {
-                var a = document.createElement('iframe');
-                a.height = 1;
-                a.width = 1;
-                a.style.position = 'absolute';
-                a.style.top = 0;
-                a.style.left = 0;
-                a.style.border = 'none';
-                a.style.visibility = 'hidden';
-                document.body.appendChild(a);
-                if ('loading' !== document.readyState) c();
-                else if (window.addEventListener) document.addEventListener('DOMContentLoaded', c);
-                else {
-                    var e = document.onreadystatechange || function() {};
-                    document.onreadystatechange = function(b) {
-                        e(b);
-                        'loading' !== document.readyState && (document.onreadystatechange = e, c())
-                    }
-                }
-            }
-        })();
-    </script>
-    <script>
-        (function() {
-            function c() {
-                var b = a.contentDocument || a.contentWindow.document;
-                if (b) {
-                    var d = b.createElement('script');
-                    d.innerHTML = "window.__CF$cv$params={r:'981a65dfa676c4ff',t:'MTc1ODI5ODY5NS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";
-                    b.getElementsByTagName('head')[0].appendChild(d)
-                }
-            }
-            if (document.body) {
-                var a = document.createElement('iframe');
-                a.height = 1;
-                a.width = 1;
-                a.style.position = 'absolute';
-                a.style.top = 0;
-                a.style.left = 0;
-                a.style.border = 'none';
-                a.style.visibility = 'hidden';
-                document.body.appendChild(a);
-                if ('loading' !== document.readyState) c();
-                else if (window.addEventListener) document.addEventListener('DOMContentLoaded', c);
-                else {
-                    var e = document.onreadystatechange || function() {};
-                    document.onreadystatechange = function(b) {
-                        e(b);
-                        'loading' !== document.readyState && (document.onreadystatechange = e, c())
-                    }
-                }
-            }
-        })();
-    </script>
-</body>
-
+  </body>
 </html>
