@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>>WYRM | DEPLOY</title>
+    <title> WYRM | DEPLOY</title>
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
     <script src="https://cdn.tailwindcss.com"></script>
@@ -43,7 +43,65 @@
     </script>
     <style>
       html, body { height: 100%; }
-      body { font-family: Inter, ui-sans-serif, system-ui, sans-serif; }
+      body { font-family: Inter, ui-sans-serif, system-ui, sans-serif; transition: background-color 0.3s ease, color 0.3s ease; }
+      .page-content { display: none; }
+      .page-content.active { display: block; }
+      .nav-link.active { background-color: #f8f9fa; color: #1a1a1a; font-weight: 500; }
+      
+      /* Dark theme styles */
+      .dark {
+        background-color: #0a0a0a !important;
+        color: #e5e7eb !important;
+      }
+      .dark header {
+        background-color: #111111 !important;
+        border-color: #333333 !important;
+      }
+      .dark aside {
+        background-color: #111111 !important;
+        border-color: #333333 !important;
+      }
+      .dark .nav-link.active {
+        background-color: #1f2937 !important;
+        color: #e5e7eb !important;
+      }
+      .dark .nav-link:hover {
+        background-color: #1f2937 !important;
+        color: #e5e7eb !important;
+      }
+      .dark .bg-white {
+        background-color: #111111 !important;
+      }
+      .dark .bg-muted {
+        background-color: #1f2937 !important;
+      }
+      .dark .border-border {
+        border-color: #333333 !important;
+      }
+      .dark .text-foreground {
+        color: #e5e7eb !important;
+      }
+      .dark .text-foreground\/70 {
+        color: #9ca3af !important;
+      }
+      .dark .text-foreground\/80 {
+        color: #d1d5db !important;
+      }
+      .dark .text-muted-foreground {
+        color: #6b7280 !important;
+      }
+      .dark .bg-card {
+        background-color: #111111 !important;
+      }
+      .dark .text-card-foreground {
+        color: #e5e7eb !important;
+      }
+      .dark .text-card-foreground\/80 {
+        color: #d1d5db !important;
+      }
+      .dark .text-card-foreground\/90 {
+        color: #f3f4f6 !important;
+      }
     </style>
   </head>
   <body class="bg-background text-foreground">
@@ -51,16 +109,16 @@
     <header class="sticky top-0 z-50 bg-white border-b border-border">
       <div class="mx-auto max-w-[1200px] px-4 py-3 flex items-center gap-4">
         <!-- Logo -->
-        <a href="#" class="flex items-center gap-2 font-semibold text-xl">
+        <a href="#" onclick="showPage('welcome')" class="flex items-center gap-2 font-semibold text-xl">
           <span class="inline-flex h-8 w-8 items-center justify-center rounded-md bg-black text-white">W</span>
           <span>WYRM doxs</span>
         </a>
 
         <!-- Center Nav -->
         <nav class="mx-auto hidden md:flex items-center gap-6 text-sm">
-          <a href="#docs" class="text-foreground/80 hover:text-foreground transition">Docs</a>
-          <a href="#api-reference" class="text-foreground/80 hover:text-foreground transition">API Reference</a>
-          <a href="#cookbook" class="text-foreground/80 hover:text-foreground transition">Cookbook</a>
+          <a href="#" onclick="showPage('welcome')" class="text-foreground/80 hover:text-foreground transition">Docs</a>
+          <a href="#" onclick="showPage('endpoints')" class="text-foreground/80 hover:text-foreground transition">API Reference</a>
+          <a href="#" onclick="showPage('tutorial')" class="text-foreground/80 hover:text-foreground transition">Cookbook</a>
         </nav>
 
         <!-- Search -->
@@ -77,11 +135,14 @@
           </div>
         </div>
 
-        <!-- Theme toggle (visual only) -->
-        <button class="h-9 w-9 inline-flex items-center justify-center rounded-md border border-border hover:bg-muted transition" title="Toggle theme">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-foreground/80" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+        <!-- Theme toggle -->
+        <button onclick="toggleTheme()" class="h-9 w-9 inline-flex items-center justify-center rounded-md border border-border hover:bg-muted transition" title="Toggle theme">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-foreground/80 theme-icon-light" viewBox="0 0 24 24" fill="none" stroke="currentColor">
             <path d="M12 3v1m0 16v1m8-9h1M3 12H2m14.95 6.95.7.7M5.34 5.34l-.7-.7m12.02 0 .7-.7M5.34 18.66l-.7.7" stroke-width="2" stroke-linecap="round"/>
             <circle cx="12" cy="12" r="4" stroke-width="2"/>
+          </svg>
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-foreground/80 theme-icon-dark hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" stroke-width="2" stroke-linecap="round"/>
           </svg>
         </button>
 
@@ -102,12 +163,12 @@
             <div>
               <div class="mb-2 font-semibold text-foreground">Getting Started</div>
               <nav class="grid gap-1">
-                <a href="#docs" class="px-2 py-1.5 rounded hover:bg-muted text-foreground/80 hover:text-foreground">Overview</a>
-                <a href="#introduction" class="px-2 py-1.5 rounded hover:bg-muted text-foreground/80 hover:text-foreground">Introduction</a>
-                <a href="#tutorial" class="px-2 py-1.5 rounded hover:bg-muted text-foreground/80 hover:text-foreground">Tutorial</a>
-                <a href="#models-pricing" class="px-2 py-1.5 rounded hover:bg-muted text-foreground/80 hover:text-foreground">Models & Pricing</a>
-                <a href="#whats-new" class="px-2 py-1.5 rounded hover:bg-muted text-foreground/80 hover:text-foreground">
-                  What’s New
+                <a href="#" onclick="showPage('welcome')" class="nav-link px-2 py-1.5 rounded hover:bg-muted text-foreground/80 hover:text-foreground active" data-page="welcome">Overview</a>
+                <a href="#" onclick="showPage('introduction')" class="nav-link px-2 py-1.5 rounded hover:bg-muted text-foreground/80 hover:text-foreground" data-page="introduction">Introduction</a>
+                <a href="#" onclick="showPage('tutorial')" class="nav-link px-2 py-1.5 rounded hover:bg-muted text-foreground/80 hover:text-foreground" data-page="tutorial">Tutorial</a>
+                <a href="#" onclick="showPage('models-pricing')" class="nav-link px-2 py-1.5 rounded hover:bg-muted text-foreground/80 hover:text-foreground" data-page="models-pricing">Models & Pricing</a>
+                <a href="#" onclick="showPage('whats-new')" class="nav-link px-2 py-1.5 rounded hover:bg-muted text-foreground/80 hover:text-foreground" data-page="whats-new">
+                  What's New
                   <span class="ml-2 text-[10px] rounded bg-primary text-white px-1 py-0.5">new</span>
                 </a>
               </nav>
@@ -117,15 +178,15 @@
             <div>
               <div class="mb-2 font-semibold text-foreground">Key Information</div>
               <nav class="grid gap-1">
-                <a href="#billing" class="px-2 py-1.5 rounded hover:bg-muted text-foreground/80 hover:text-foreground">Billing</a>
-                <a href="#rate-limits" class="px-2 py-1.5 rounded hover:bg-muted text-foreground/80 hover:text-foreground">Rate Limits</a>
-                <a href="#endpoints" class="px-2 py-1.5 rounded hover:bg-muted text-foreground/80 hover:text-foreground">Endpoints</a>
-                <a href="#collections" class="px-2 py-1.5 rounded hover:bg-muted text-foreground/80 hover:text-foreground">
+                <a href="#" onclick="showPage('billing')" class="nav-link px-2 py-1.5 rounded hover:bg-muted text-foreground/80 hover:text-foreground" data-page="billing">Billing</a>
+                <a href="#" onclick="showPage('rate-limits')" class="nav-link px-2 py-1.5 rounded hover:bg-muted text-foreground/80 hover:text-foreground" data-page="rate-limits">Rate Limits</a>
+                <a href="#" onclick="showPage('endpoints')" class="nav-link px-2 py-1.5 rounded hover:bg-muted text-foreground/80 hover:text-foreground" data-page="endpoints">Endpoints</a>
+                <a href="#" onclick="showPage('collections')" class="nav-link px-2 py-1.5 rounded hover:bg-muted text-foreground/80 hover:text-foreground" data-page="collections">
                   Collections
                   <span class="ml-2 text-[10px] rounded bg-primary text-white px-1 py-0.5">new</span>
                 </a>
-                <a href="#keys" class="px-2 py-1.5 rounded hover:bg-muted text-foreground/80 hover:text-foreground">API Keys</a>
-                <a href="#usage" class="px-2 py-1.5 rounded hover:bg-muted text-foreground/80 hover:text-foreground">Usage</a>
+                <a href="#" onclick="showPage('keys')" class="nav-link px-2 py-1.5 rounded hover:bg-muted text-foreground/80 hover:text-foreground" data-page="keys">API Keys</a>
+                <a href="#" onclick="showPage('usage')" class="nav-link px-2 py-1.5 rounded hover:bg-muted text-foreground/80 hover:text-foreground" data-page="usage">Usage</a>
               </nav>
             </div>
 
@@ -133,11 +194,11 @@
             <div>
               <div class="mb-2 font-semibold text-foreground">Guides</div>
               <nav class="grid gap-1">
-                <a href="#tool-use" class="px-2 py-1.5 rounded hover:bg-muted text-foreground/80 hover:text-foreground">Tool Use (Function Calling)</a>
-                <a href="#structured-outputs" class="px-2 py-1.5 rounded hover:bg-muted text-foreground/80 hover:text-foreground">Structured Outputs</a>
-                <a href="#images" class="px-2 py-1.5 rounded hover:bg-muted text-foreground/80 hover:text-foreground">Images & OCR</a>
-                <a href="#reasoning" class="px-2 py-1.5 rounded hover:bg-muted text-foreground/80 hover:text-foreground">Reasoning</a>
-                <a href="#streaming" class="px-2 py-1.5 rounded hover:bg-muted text-foreground/80 hover:text-foreground">Streaming</a>
+                <a href="#" onclick="showPage('tool-use')" class="nav-link px-2 py-1.5 rounded hover:bg-muted text-foreground/80 hover:text-foreground" data-page="tool-use">Tool Use (Function Calling)</a>
+                <a href="#" onclick="showPage('structured-outputs')" class="nav-link px-2 py-1.5 rounded hover:bg-muted text-foreground/80 hover:text-foreground" data-page="structured-outputs">Structured Outputs</a>
+                <a href="#" onclick="showPage('images')" class="nav-link px-2 py-1.5 rounded hover:bg-muted text-foreground/80 hover:text-foreground" data-page="images">Images & OCR</a>
+                <a href="#" onclick="showPage('reasoning')" class="nav-link px-2 py-1.5 rounded hover:bg-muted text-foreground/80 hover:text-foreground" data-page="reasoning">Reasoning</a>
+                <a href="#" onclick="showPage('streaming')" class="nav-link px-2 py-1.5 rounded hover:bg-muted text-foreground/80 hover:text-foreground" data-page="streaming">Streaming</a>
               </nav>
             </div>
 
@@ -145,8 +206,8 @@
             <div>
               <div class="mb-2 font-semibold text-foreground">Resources</div>
               <nav class="grid gap-1">
-                <a href="#discord" class="px-2 py-1.5 rounded hover:bg-muted text-foreground/80 hover:text-foreground">Discord Community</a>
-                <a href="#faq" class="px-2 py-1.5 rounded hover:bg-muted text-foreground/80 hover:text-foreground">FAQ</a>
+                <a href="#" onclick="showPage('discord')" class="nav-link px-2 py-1.5 rounded hover:bg-muted text-foreground/80 hover:text-foreground" data-page="discord">Discord Community</a>
+                <a href="#" onclick="showPage('faq')" class="nav-link px-2 py-1.5 rounded hover:bg-muted text-foreground/80 hover:text-foreground" data-page="faq">FAQ</a>
               </nav>
             </div>
 
@@ -157,154 +218,1856 @@
                 <span class="text-foreground/80">Service status: <span class="font-medium text-foreground">Available</span></span>
               </div>
               <div class="mt-3 grid gap-1">
-                <a href="#discord" class="text-accent hover:underline">Join Discord</a>
-                <a href="SUPPORT_WYRM" class="text-accent hover:underline">support@WYRM</a>
+                <a href="#" onclick="showPage('discord')" class="text-accent hover:underline">Join Discord</a>
+                <a href="mailto:support@WYRM.ai" class="text-accent hover:underline">support@WYRM</a>
               </div>
             </div>
           </div>
         </aside>
 
         <!-- Main Content -->
-        <main class="min-w-0">
-          <!-- Breadcrumb -->
-          <nav class="text-sm text-muted-foreground mb-4">
-            <ol class="flex items-center gap-2">
-              <li><a href="#" class="hover:underline">Docs</a></li>
-              <li>/</li>
-              <li class="text-foreground">Getting started</li>
-            </ol>
-          </nav>
+        <main class="min-w-0" id="main-content">
+          <!-- Welcome Page -->
+          <div id="welcome-page" class="page-content active">
+            <!-- Breadcrumb -->
+            <nav class="text-sm text-muted-foreground mb-4">
+              <ol class="flex items-center gap-2">
+                <li><a href="#" onclick="showPage('welcome')" class="hover:underline">Docs</a></li>
+                <li>/</li>
+                <li class="text-foreground">Getting started</li>
+              </ol>
+            </nav>
 
-          <!-- Title -->
-          <h1 class="text-3xl font-bold mb-2">Welcome</h1>
-          <p class="text-foreground/70 mb-6">
-            WYRM geliştirici dökümantasyonuna hoş geldiniz. WYRM modelleri; çoklu modalite,
-            uzun bağlam (context window), fonksiyon çağırma ve yapılandırılmış çıktılar gibi güçlü
-            yeteneklere sahiptir.
-          </p>
-
-          <!-- Hero Card -->
-          <section id="docs" class="mb-8">
-            <div class="relative rounded-lg overflow-hidden bg-card text-card-foreground">
-              <!-- Background image -->
-              <div class="absolute inset-0">
-                <img
-                  alt="WYRM 1"
-                  src="https://docs.x.ai/_next/image?url=https%3A%2F%2Fdata.x.ai%2Fgrok-4-mini.webp&w=1920&q=75"
-                  class="h-full w-full object-cover opacity-40"
-                />
-                <div class="absolute inset-0 bg-gradient-to-tr from-black/60 via-black/40 to-transparent"></div>
-              </div>
-              <!-- Content -->
-              <div class="relative p-8">
-                <h2 class="text-2xl font-semibold mb-2">WYRM 1</h2>
-                <p class="text-card-foreground/80 mb-6 max-w-2xl">
-                  Çok modlu, 2,000,000 token bağlam penceresi, düşük gecikme ve düşük maliyet odaklı
-                  yeni nesil Grok model ailesi.
-                </p>
-                <div class="grid gap-4 md:grid-cols-3">
-                  <div class="rounded-md border border-white/10 bg-white/5 p-4">
-                    <div class="text-sm text-card-foreground/70">Modalities</div>
-                    <div class="font-medium">Text, Image</div>
-                  </div>
-                  <div class="rounded-md border border-white/10 bg-white/5 p-4">
-                    <div class="text-sm text-card-foreground/70">Context window</div>
-                    <div class="font-medium">2,000,000</div>
-                  </div>
-                  <div class="rounded-md border border-white/10 bg-white/5 p-4">
-                    <div class="text-sm text-card-foreground/70">Performance</div>
-                    <div class="font-medium">Lightning fast · Low cost</div>
-                  </div>
-                </div>
-
-                <div class="mt-6 grid gap-2 md:grid-cols-2">
-                  <div class="flex items-center gap-2 text-sm">
-                    <span class="inline-flex h-5 w-5 items-center justify-center rounded bg-white/10">⚙️</span>
-                    Function calling
-                  </div>
-                  <div class="flex items-center gap-2 text-sm">
-                    <span class="inline-flex h-5 w-5 items-center justify-center rounded bg-white/10">📐</span>
-                    Structured outputs
-                  </div>
-                  <div class="flex items-center gap-2 text-sm">
-                    <span class="inline-flex h-5 w-5 items-center justify-center rounded bg-white/10">🧠</span>
-                    Reasoning
-                  </div>
-                  <div class="flex items-center gap-2 text-sm">
-                    <span class="inline-flex h-5 w-5 items-center justify-center rounded bg-white/10">⚡</span>
-                    Lightning fast · Low cost
-                  </div>
-                </div>
-              </div>
-            </div>
-          </section>
-
-          <!-- Quick links -->
-          <section id="jump-right-in" class="mb-10">
-            <h3 class="text-xl font-semibold mb-4">Jump right in</h3>
-            <div class="grid gap-4 md:grid-cols-3">
-              <!-- Quickstart -->
-              <a href="#quickstart" class="group block rounded-lg border border-border p-5 hover:shadow-sm hover:-translate-y-0.5 transition">
-                <div class="flex items-start justify-between">
-                  <div class="font-medium">Quickstart</div>
-                  <span class="text-muted-foreground">→</span>
-                </div>
-                <p class="mt-2 text-sm text-foreground/70">
-                  API anahtarı oluşturun ve ilk isteğinizi yapın.
-                </p>
-                <div class="mt-4 inline-flex items-center text-sm text-accent group-hover:underline">Başla</div>
-              </a>
-              <!-- Tool Use -->
-              <a href="#tool-use" class="group block rounded-lg border border-border p-5 hover:shadow-sm hover:-translate-y-0.5 transition">
-                <div class="flex items-start justify-between">
-                  <div class="font-medium">Tool Use</div>
-                  <span class="text-muted-foreground">→</span>
-                </div>
-                <p class="mt-2 text-sm text-foreground/70">
-                  Fonksiyon çağırma ile araçları güvenle çalıştırın.
-                </p>
-                <div class="mt-4 inline-flex items-center text-sm text-accent group-hover:underline">İncele</div>
-              </a>
-              <!-- Images -->
-              <a href="#images" class="group block rounded-lg border border-border p-5 hover:shadow-sm hover:-translate-y-0.5 transition">
-                <div class="flex items-start justify-between">
-                  <div class="font-medium">Images</div>
-                  <span class="text-muted-foreground">→</span>
-                </div>
-                <p class="mt-2 text-sm text-foreground/70">
-                  Görsel analiz ve OCR örnekleri.
-                </p>
-                <div class="mt-4 inline-flex items-center text-sm text-accent group-hover:underline">Göz at</div>
-              </a>
-            </div>
-          </section>
-
-          <!-- Footer info -->
-          <section class="mb-16">
-            <p class="italic text-foreground/70">
-              Geliştirici olmayan servisler için lütfen
-              <a href="https://grok.com" target="_blank" class="text-accent hover:underline">WYRM.com</a>,
-              <a href="https://apps.apple.com" target="_blank" class="text-accent hover:underline">iOS uygulaması</a>,
-              <a href="https://play.google.com" target="_blank" class="text-accent hover:underline">Android uygulaması</a>
-              ya da <a href="#" class="text-accent hover:underline">karşılaştırma tablosu</a> sayfalarına bakın.
+            <!-- Title -->
+            <h1 class="text-3xl font-bold mb-2">Welcome to WYRM AI Platform</h1>
+            <p class="text-foreground/70 mb-6">
+              WYRM geliştirici dökümantasyonuna hoş geldiniz. WYRM, gelecek nesil yapay zeka teknolojileri ile güçlendirilmiş, 
+              çoklu modalite desteği, 2 milyon token bağlam penceresi, gelişmiş fonksiyon çağırma ve yapılandırılmış çıktılar 
+              sunan devrim niteliğinde bir AI platformudur. Dünya çapında 12,000+ geliştirici tarafından güvenle kullanılmaktadır.
             </p>
 
-            <div class="mt-6">
-              <h4 class="text-lg font-semibold mb-2">Questions and feedback</h4>
-              <p class="text-foreground/70">
-                Görüş ve destek için bize
-                <a href="mailto:support@WYRMi" class="text-accent hover:underline">support@WYRM</a>
-                adresinden ulaşabilirsiniz.
+            <!-- Stats Section -->
+            <section class="mb-8">
+              <div class="grid gap-6 md:grid-cols-4 mb-8">
+                <div class="text-center p-6 bg-gradient-to-br from-blue-50 to-indigo-100 rounded-lg border">
+                  <div class="text-3xl font-bold text-blue-600 mb-2">12K+</div>
+                  <div class="text-sm text-gray-600">Aktif Geliştiriciler</div>
+                </div>
+                <div class="text-center p-6 bg-gradient-to-br from-green-50 to-emerald-100 rounded-lg border">
+                  <div class="text-3xl font-bold text-green-600 mb-2">2M</div>
+                  <div class="text-sm text-gray-600">Token Context Window</div>
+                </div>
+                <div class="text-center p-6 bg-gradient-to-br from-purple-50 to-violet-100 rounded-lg border">
+                  <div class="text-3xl font-bold text-purple-600 mb-2">99.9%</div>
+                  <div class="text-sm text-gray-600">Uptime Garantisi</div>
+                </div>
+                <div class="text-center p-6 bg-gradient-to-br from-orange-50 to-amber-100 rounded-lg border">
+                  <div class="text-3xl font-bold text-orange-600 mb-2">50ms</div>
+                  <div class="text-sm text-gray-600">Ortalama Yanıt Süresi</div>
+                </div>
+              </div>
+            </section>
+
+            <!-- Company Overview -->
+            <section class="mb-8">
+              <div class="bg-gradient-to-r from-slate-50 to-gray-100 rounded-lg p-8 border">
+                <h2 class="text-2xl font-bold mb-4">WYRM AI Hakkında</h2>
+                <div class="grid gap-6 md:grid-cols-2">
+                  <div>
+                    <p class="text-foreground/80 mb-4">
+                      WYRM AI, 2023 yılında kurulan ve yapay zeka alanında çığır açan teknolojiler geliştiren bir şirkettir. 
+                      Misyonumuz, geliştiricilere en güçlü ve kullanıcı dostu AI araçlarını sunarak, dijital dönüşümün 
+                      öncüsü olmaktır.
+                    </p>
+                    <p class="text-foreground/80 mb-4">
+                      Şirketimiz, Stanford, MIT ve Google'dan gelen dünya çapındaki AI uzmanları tarafından kurulmuştur. 
+                      150+ mühendis ve araştırmacıdan oluşan ekibimiz, sürekli olarak AI'ın sınırlarını zorlamaktadır.
+                    </p>
+                  </div>
+                  <div>
+                    <h3 class="text-lg font-semibold mb-3">Temel Değerlerimiz</h3>
+                    <ul class="space-y-2">
+                      <li class="flex items-center gap-2">
+                        <span class="w-2 h-2 bg-blue-500 rounded-full"></span>
+                        <span class="text-foreground/80">İnovasyon ve Sürekli Gelişim</span>
+                      </li>
+                      <li class="flex items-center gap-2">
+                        <span class="w-2 h-2 bg-green-500 rounded-full"></span>
+                        <span class="text-foreground/80">Etik AI Geliştirme</span>
+                      </li>
+                      <li class="flex items-center gap-2">
+                        <span class="w-2 h-2 bg-purple-500 rounded-full"></span>
+                        <span class="text-foreground/80">Açık Kaynak Desteği</span>
+                      </li>
+                      <li class="flex items-center gap-2">
+                        <span class="w-2 h-2 bg-orange-500 rounded-full"></span>
+                        <span class="text-foreground/80">Topluluk Odaklı Yaklaşım</span>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <!-- User Growth Chart -->
+            <section class="mb-8">
+              <div class="bg-white rounded-lg border p-6">
+                <h3 class="text-xl font-semibold mb-4">Kullanıcı Büyüme Grafiği</h3>
+                <div class="relative h-64 bg-gradient-to-t from-blue-50 to-white rounded-lg p-4">
+                  <svg viewBox="0 0 400 200" class="w-full h-full">
+                    <!-- Grid lines -->
+                    <defs>
+                      <pattern id="grid" width="40" height="20" patternUnits="userSpaceOnUse">
+                        <path d="M 40 0 L 0 0 0 20" fill="none" stroke="#e5e7eb" stroke-width="1"/>
+                      </pattern>
+                    </defs>
+                    <rect width="400" height="200" fill="url(#grid)" />
+                    
+                    <!-- Y-axis labels -->
+                    <text x="10" y="20" class="text-xs fill-gray-500">12K</text>
+                    <text x="10" y="60" class="text-xs fill-gray-500">9K</text>
+                    <text x="10" y="100" class="text-xs fill-gray-500">6K</text>
+                    <text x="10" y="140" class="text-xs fill-gray-500">3K</text>
+                    <text x="10" y="180" class="text-xs fill-gray-500">0</text>
+                    
+                    <!-- X-axis labels -->
+                    <text x="60" y="195" class="text-xs fill-gray-500">Q1 2023</text>
+                    <text x="140" y="195" class="text-xs fill-gray-500">Q2 2023</text>
+                    <text x="220" y="195" class="text-xs fill-gray-500">Q3 2023</text>
+                    <text x="300" y="195" class="text-xs fill-gray-500">Q4 2023</text>
+                    <text x="380" y="195" class="text-xs fill-gray-500">Q1 2024</text>
+                    
+                    <!-- Growth curve -->
+                    <path d="M 40 160 Q 120 140 200 100 T 360 20" 
+                          fill="none" 
+                          stroke="url(#gradient)" 
+                          stroke-width="3"/>
+                    
+                    <!-- Gradient definition -->
+                    <defs>
+                      <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                        <stop offset="0%" style="stop-color:#3b82f6;stop-opacity:1" />
+                        <stop offset="100%" style="stop-color:#8b5cf6;stop-opacity:1" />
+                      </linearGradient>
+                    </defs>
+                    
+                    <!-- Data points -->
+                    <circle cx="40" cy="160" r="4" fill="#3b82f6"/>
+                    <circle cx="120" cy="130" r="4" fill="#3b82f6"/>
+                    <circle cx="200" cy="90" r="4" fill="#3b82f6"/>
+                    <circle cx="280" cy="50" r="4" fill="#3b82f6"/>
+                    <circle cx="360" cy="20" r="4" fill="#8b5cf6"/>
+                  </svg>
+                </div>
+                <div class="mt-4 text-sm text-gray-600">
+                  <p>Son 12 ayda kullanıcı sayımız 5,000'den 12,000'e ulaştı. Bu büyüme, platformumuzun 
+                  güvenilirliği ve performansının bir göstergesidir.</p>
+                </div>
+              </div>
+            </section>
+
+            <!-- Hero Card with AI Visualization -->
+            <section id="docs" class="mb-8">
+              <div class="relative rounded-lg overflow-hidden bg-card text-card-foreground min-h-[400px]">
+                <!-- Background Image -->
+                <div class="absolute inset-0">
+                  <img src="https://docs.x.ai/_next/image?url=https%3A%2F%2Fdata.x.ai%2Fgrok-4-mini.webp&w=1920&q=75" 
+                       alt="WYRM AI Model Visualization" 
+                       class="w-full h-full object-cover opacity-30"
+                       onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                  <!-- Fallback AI Neural Network Background -->
+                  <div class="absolute inset-0 bg-gradient-to-br from-slate-900 via-blue-900 to-purple-900" style="display: none;">
+                    <svg class="w-full h-full opacity-30" viewBox="0 0 800 400">
+                      <!-- Neural network nodes -->
+                      <circle cx="100" cy="100" r="8" fill="#60a5fa" class="animate-pulse"/>
+                      <circle cx="200" cy="80" r="6" fill="#34d399" class="animate-pulse" style="animation-delay: 0.5s"/>
+                      <circle cx="300" cy="120" r="7" fill="#f59e0b" class="animate-pulse" style="animation-delay: 1s"/>
+                      <circle cx="400" cy="90" r="5" fill="#ec4899" class="animate-pulse" style="animation-delay: 1.5s"/>
+                      <circle cx="500" cy="110" r="8" fill="#8b5cf6" class="animate-pulse" style="animation-delay: 2s"/>
+                      <circle cx="600" cy="85" r="6" fill="#06b6d4" class="animate-pulse" style="animation-delay: 2.5s"/>
+                      <circle cx="700" cy="105" r="7" fill="#f97316" class="animate-pulse" style="animation-delay: 3s"/>
+                      
+                      <!-- Second layer -->
+                      <circle cx="150" cy="200" r="6" fill="#60a5fa" class="animate-pulse" style="animation-delay: 0.3s"/>
+                      <circle cx="250" cy="180" r="8" fill="#34d399" class="animate-pulse" style="animation-delay: 0.8s"/>
+                      <circle cx="350" cy="220" r="5" fill="#f59e0b" class="animate-pulse" style="animation-delay: 1.3s"/>
+                      <circle cx="450" cy="190" r="7" fill="#ec4899" class="animate-pulse" style="animation-delay: 1.8s"/>
+                      <circle cx="550" cy="210" r="6" fill="#8b5cf6" class="animate-pulse" style="animation-delay: 2.3s"/>
+                      <circle cx="650" cy="185" r="8" fill="#06b6d4" class="animate-pulse" style="animation-delay: 2.8s"/>
+                      
+                      <!-- Third layer -->
+                      <circle cx="200" cy="300" r="7" fill="#60a5fa" class="animate-pulse" style="animation-delay: 0.7s"/>
+                      <circle cx="300" cy="280" r="5" fill="#34d399" class="animate-pulse" style="animation-delay: 1.2s"/>
+                      <circle cx="400" cy="320" r="8" fill="#f59e0b" class="animate-pulse" style="animation-delay: 1.7s"/>
+                      <circle cx="500" cy="290" r="6" fill="#ec4899" class="animate-pulse" style="animation-delay: 2.2s"/>
+                      <circle cx="600" cy="310" r="7" fill="#8b5cf6" class="animate-pulse" style="animation-delay: 2.7s"/>
+                      
+                      <!-- Connection lines -->
+                      <line x1="100" y1="100" x2="150" y2="200" stroke="#60a5fa" stroke-width="2" opacity="0.4"/>
+                      <line x1="200" y1="80" x2="250" y2="180" stroke="#34d399" stroke-width="2" opacity="0.4"/>
+                      <line x1="300" y1="120" x2="350" y2="220" stroke="#f59e0b" stroke-width="2" opacity="0.4"/>
+                      <line x1="400" y1="90" x2="450" y2="190" stroke="#ec4899" stroke-width="2" opacity="0.4"/>
+                      <line x1="500" y1="110" x2="550" y2="210" stroke="#8b5cf6" stroke-width="2" opacity="0.4"/>
+                      <line x1="600" y1="85" x2="650" y2="185" stroke="#06b6d4" stroke-width="2" opacity="0.4"/>
+                      
+                      <line x1="150" y1="200" x2="200" y2="300" stroke="#60a5fa" stroke-width="2" opacity="0.4"/>
+                      <line x1="250" y1="180" x2="300" y2="280" stroke="#34d399" stroke-width="2" opacity="0.4"/>
+                      <line x1="350" y1="220" x2="400" y2="320" stroke="#f59e0b" stroke-width="2" opacity="0.4"/>
+                      <line x1="450" y1="190" x2="500" y2="290" stroke="#ec4899" stroke-width="2" opacity="0.4"/>
+                      <line x1="550" y1="210" x2="600" y2="310" stroke="#8b5cf6" stroke-width="2" opacity="0.4"/>
+
+                      <!-- Data flow animations -->
+                      <circle r="3" fill="#60a5fa" opacity="0.8">
+                        <animateMotion dur="3s" repeatCount="indefinite">
+                          <path d="M100,100 L150,200 L200,300"/>
+                        </animateMotion>
+                      </circle>
+                      <circle r="3" fill="#34d399" opacity="0.8">
+                        <animateMotion dur="3s" repeatCount="indefinite" begin="0.5s">
+                          <path d="M200,80 L250,180 L300,280"/>
+                        </animateMotion>
+                      </circle>
+                      <circle r="3" fill="#f59e0b" opacity="0.8">
+                        <animateMotion dur="3s" repeatCount="indefinite" begin="1s">
+                          <path d="M300,120 L350,220 L400,320"/>
+                        </animateMotion>
+                      </circle>
+                    </svg>
+                  </div>
+                  <div class="absolute inset-0 bg-gradient-to-tr from-black/70 via-black/50 to-transparent"></div>
+                </div>
+                <!-- Content -->
+                <div class="relative p-8">
+                  <div class="flex items-center gap-3 mb-4">
+                    <div class="w-12 h-12 bg-gradient-to-br from-blue-400 to-purple-600 rounded-lg flex items-center justify-center">
+                      <span class="text-white font-bold text-xl">W</span>
+                    </div>
+                    <h2 class="text-3xl font-bold">WYRM 1</h2>
+                  </div>
+                  <p class="text-card-foreground/90 mb-6 max-w-2xl text-lg">
+                    Çok modlu, 2,000,000 token bağlam penceresi, düşük gecikme ve düşük maliyet odaklı
+                    yeni nesil yapay zeka model ailesi. Gelişmiş neural network mimarisi ile güçlendirilmiş.
+                  </p>
+                  <div class="grid gap-4 md:grid-cols-3 mb-6">
+                    <div class="rounded-lg border border-white/20 bg-white/10 backdrop-blur-sm p-4">
+                      <div class="text-sm text-card-foreground/70 mb-1">Modalities</div>
+                      <div class="font-semibold text-lg">Text, Image, Code</div>
+                    </div>
+                    <div class="rounded-lg border border-white/20 bg-white/10 backdrop-blur-sm p-4">
+                      <div class="text-sm text-card-foreground/70 mb-1">Context window</div>
+                      <div class="font-semibold text-lg">2,000,000 tokens</div>
+                    </div>
+                    <div class="rounded-lg border border-white/20 bg-white/10 backdrop-blur-sm p-4">
+                      <div class="text-sm text-card-foreground/70 mb-1">Performance</div>
+                      <div class="font-semibold text-lg">Lightning fast</div>
+                    </div>
+                  </div>
+
+                  <div class="grid gap-3 md:grid-cols-2">
+                    <div class="flex items-center gap-3 text-sm bg-white/5 rounded-lg p-3">
+                      <span class="inline-flex h-8 w-8 items-center justify-center rounded-lg bg-blue-500/20">⚙️</span>
+                      <span class="font-medium">Advanced Function Calling</span>
+                    </div>
+                    <div class="flex items-center gap-3 text-sm bg-white/5 rounded-lg p-3">
+                      <span class="inline-flex h-8 w-8 items-center justify-center rounded-lg bg-green-500/20">📐</span>
+                      <span class="font-medium">Structured JSON Outputs</span>
+                    </div>
+                    <div class="flex items-center gap-3 text-sm bg-white/5 rounded-lg p-3">
+                      <span class="inline-flex h-8 w-8 items-center justify-center rounded-lg bg-purple-500/20">🧠</span>
+                      <span class="font-medium">Advanced Reasoning</span>
+                    </div>
+                    <div class="flex items-center gap-3 text-sm bg-white/5 rounded-lg p-3">
+                      <span class="inline-flex h-8 w-8 items-center justify-center rounded-lg bg-orange-500/20">⚡</span>
+                      <span class="font-medium">Real-time Streaming</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <!-- Quick links -->
+            <section id="jump-right-in" class="mb-10">
+              <h3 class="text-xl font-semibold mb-4">Jump right in</h3>
+              <div class="grid gap-4 md:grid-cols-3">
+                <!-- Quickstart -->
+                <a href="#" onclick="showPage('tutorial')" class="group block rounded-lg border border-border p-5 hover:shadow-sm hover:-translate-y-0.5 transition">
+                  <div class="flex items-start justify-between">
+                    <div class="font-medium">Quickstart</div>
+                    <span class="text-muted-foreground">→</span>
+                  </div>
+                  <p class="mt-2 text-sm text-foreground/70">
+                    API anahtarı oluşturun ve ilk isteğinizi yapın.
+                  </p>
+                  <div class="mt-4 inline-flex items-center text-sm text-accent group-hover:underline">Başla</div>
+                </a>
+                <!-- Tool Use -->
+                <a href="#" onclick="showPage('tool-use')" class="group block rounded-lg border border-border p-5 hover:shadow-sm hover:-translate-y-0.5 transition">
+                  <div class="flex items-start justify-between">
+                    <div class="font-medium">Tool Use</div>
+                    <span class="text-muted-foreground">→</span>
+                  </div>
+                  <p class="mt-2 text-sm text-foreground/70">
+                    Fonksiyon çağırma ile araçları güvenle çalıştırın.
+                  </p>
+                  <div class="mt-4 inline-flex items-center text-sm text-accent group-hover:underline">İncele</div>
+                </a>
+                <!-- Images -->
+                <a href="#" onclick="showPage('images')" class="group block rounded-lg border border-border p-5 hover:shadow-sm hover:-translate-y-0.5 transition">
+                  <div class="flex items-start justify-between">
+                    <div class="font-medium">Images</div>
+                    <span class="text-muted-foreground">→</span>
+                  </div>
+                  <p class="mt-2 text-sm text-foreground/70">
+                    Görsel analiz ve OCR örnekleri.
+                  </p>
+                  <div class="mt-4 inline-flex items-center text-sm text-accent group-hover:underline">Göz at</div>
+                </a>
+              </div>
+            </section>
+
+            <!-- Footer info -->
+            <section class="mb-16">
+              <p class="italic text-foreground/70">
+                Geliştirici olmayan servisler için lütfen
+                <a href="https://grok.com" target="_blank" rel="noopener noreferrer" class="text-accent hover:underline">WYRM.com</a>,
+                <a href="https://apps.apple.com" target="_blank" rel="noopener noreferrer" class="text-accent hover:underline">iOS uygulaması</a>,
+                <a href="https://play.google.com" target="_blank" rel="noopener noreferrer" class="text-accent hover:underline">Android uygulaması</a>
+                ya da <a href="#" onclick="showPage('models-pricing')" class="text-accent hover:underline">karşılaştırma tablosu</a> sayfalarına bakın.
               </p>
-              <p class="mt-4">Happy WYRMKİNG! 😎</p>
+
+              <div class="mt-6">
+                <h4 class="text-lg font-semibold mb-2">Questions and feedback</h4>
+                <p class="text-foreground/70">
+                  Görüş ve destek için bize
+                  <a href="mailto:support@WYRM.ai" class="text-accent hover:underline">support@WYRM</a>
+                  adresinden ulaşabilirsiniz.
+                </p>
+                <p class="mt-4">Happy WYRMKİNG! 😎</p>
+              </div>
+            </section>
+          </div>
+
+          <!-- Introduction Page -->
+          <div id="introduction-page" class="page-content">
+            <nav class="text-sm text-muted-foreground mb-4">
+              <ol class="flex items-center gap-2">
+                <li><a href="#" onclick="showPage('welcome')" class="hover:underline">Docs</a></li>
+                <li>/</li>
+                <li class="text-foreground">Introduction</li>
+              </ol>
+            </nav>
+            <h1 class="text-3xl font-bold mb-4">WYRM AI'ya Giriş</h1>
+            
+            <!-- Hero Section with AI Visual -->
+            <div class="relative rounded-lg overflow-hidden bg-gradient-to-br from-indigo-900 via-purple-900 to-pink-900 text-white mb-8">
+              <div class="absolute inset-0">
+                <img src="https://images.unsplash.com/photo-1677442136019-21780ecad995?w=1200&q=80" 
+                     alt="AI Technology Background" 
+                     class="w-full h-full object-cover opacity-20"
+                     onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                <svg class="w-full h-full opacity-20" viewBox="0 0 600 300" style="display: none;">
+                  <!-- Brain-like network -->
+                  <circle cx="100" cy="150" r="6" fill="#60a5fa" class="animate-pulse"/>
+                  <circle cx="200" cy="100" r="8" fill="#34d399" class="animate-pulse" style="animation-delay: 0.5s"/>
+                  <circle cx="300" cy="150" r="7" fill="#f59e0b" class="animate-pulse" style="animation-delay: 1s"/>
+                  <circle cx="400" cy="100" r="6" fill="#ec4899" class="animate-pulse" style="animation-delay: 1.5s"/>
+                  <circle cx="500" cy="150" r="8" fill="#8b5cf6" class="animate-pulse" style="animation-delay: 2s"/>
+                  
+                  <circle cx="150" cy="200" r="5" fill="#06b6d4" class="animate-pulse" style="animation-delay: 0.3s"/>
+                  <circle cx="250" cy="200" r="7" fill="#f97316" class="animate-pulse" style="animation-delay: 0.8s"/>
+                  <circle cx="350" cy="200" r="6" fill="#10b981" class="animate-pulse" style="animation-delay: 1.3s"/>
+                  <circle cx="450" cy="200" r="8" fill="#3b82f6" class="animate-pulse" style="animation-delay: 1.8s"/>
+                  
+                  <!-- Connections -->
+                  <path d="M100,150 Q150,125 200,100" stroke="#60a5fa" stroke-width="2" fill="none" opacity="0.4"/>
+                  <path d="M200,100 Q250,125 300,150" stroke="#34d399" stroke-width="2" fill="none" opacity="0.4"/>
+                  <path d="M300,150 Q350,125 400,100" stroke="#f59e0b" stroke-width="2" fill="none" opacity="0.4"/>
+                  <path d="M400,100 Q450,125 500,150" stroke="#ec4899" stroke-width="2" fill="none" opacity="0.4"/>
+                </svg>
+              </div>
+              <div class="relative p-8">
+                <h2 class="text-2xl font-bold mb-4">Yapay Zeka Geleceğine Hoş Geldiniz</h2>
+                <p class="text-white/90 mb-6 max-w-3xl">
+                  WYRM AI, geliştiriciler için tasarlanmış yeni nesil yapay zeka platformudur. 
+                  Güçlü dil modelleri, görsel işleme yetenekleri ve akıllı fonksiyon çağırma 
+                  özellikleri ile projelerinizi bir üst seviyeye taşıyın.
+                </p>
+              </div>
             </div>
-          </section>
+
+            <div class="prose max-w-none">
+              <p class="text-foreground/70 mb-8 text-lg">
+                WYRM API'sine giriş rehberi. Bu bölümde temel kavramları, API'nin nasıl çalıştığını 
+                ve neler yapabileceğinizi detaylı şekilde öğreneceksiniz. Başlangıçtan ileri seviyeye 
+                kadar tüm bilgileri burada bulabilirsiniz.
+              </p>
+              
+              <!-- What is WYRM Section -->
+              <div class="bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200 rounded-lg p-8 mb-8">
+                <div class="flex items-center gap-3 mb-4">
+                  <div class="w-10 h-10 bg-blue-500 rounded-lg flex items-center justify-center">
+                    <span class="text-white text-xl">🚀</span>
+                  </div>
+                  <h3 class="text-2xl font-bold text-blue-800">WYRM Nedir?</h3>
+                </div>
+                <p class="text-blue-700 mb-6 text-lg">
+                  WYRM (Web-scale Yet Responsive Model), gelişmiş yapay zeka yetenekleri sunan 
+                  bulut tabanlı bir API platformudur. Stanford ve MIT'den gelen araştırmacılar 
+                  tarafından geliştirilen WYRM, endüstri standardında performans ve güvenilirlik sunar.
+                </p>
+                
+                <div class="grid gap-6 md:grid-cols-2">
+                  <div>
+                    <h4 class="font-semibold text-blue-800 mb-3">🎯 Temel Misyon</h4>
+                    <p class="text-blue-600 text-sm">
+                      Geliştiricilere en güçlü AI araçlarını basit ve erişilebilir bir şekilde sunmak. 
+                      Karmaşık AI işlemlerini birkaç satır kodla gerçekleştirmenizi sağlıyoruz.
+                    </p>
+                  </div>
+                  <div>
+                    <h4 class="font-semibold text-blue-800 mb-3">⚡ Temel Avantajlar</h4>
+                    <ul class="space-y-1 text-blue-600 text-sm">
+                      <li>• Düşük gecikme süresi (50ms ortalama)</li>
+                      <li>• Yüksek doğruluk oranı (%99.9 uptime)</li>
+                      <li>• Kolay entegrasyon</li>
+                      <li>• Ölçeklenebilir altyapı</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Core Features -->
+              <div class="mb-8">
+                <h3 class="text-2xl font-bold mb-6">🔥 Temel Özellikler</h3>
+                <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+                  <div class="bg-white border border-gray-200 rounded-lg p-6 hover:shadow-lg transition">
+                    <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mb-4">
+                      <span class="text-2xl">💬</span>
+                    </div>
+                    <h4 class="font-semibold mb-2">2M Token Bağlam</h4>
+                    <p class="text-gray-600 text-sm">
+                      Uzun belgeler, kod dosyaları ve karmaşık konuşmaları tek seferde işleyin. 
+                      Kitap boyutundaki metinleri analiz edebilir.
+                    </p>
+                  </div>
+                  
+                  <div class="bg-white border border-gray-200 rounded-lg p-6 hover:shadow-lg transition">
+                    <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mb-4">
+                      <span class="text-2xl">🖼️</span>
+                    </div>
+                    <h4 class="font-semibold mb-2">Çoklu Modalite</h4>
+                    <p class="text-gray-600 text-sm">
+                      Metin, görsel ve kod analizi bir arada. Resimlerden metin çıkarın, 
+                      görselleri açıklayın ve kod parçalarını analiz edin.
+                    </p>
+                  </div>
+                  
+                  <div class="bg-white border border-gray-200 rounded-lg p-6 hover:shadow-lg transition">
+                    <div class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center mb-4">
+                      <span class="text-2xl">⚙️</span>
+                    </div>
+                    <h4 class="font-semibold mb-2">Fonksiyon Çağırma</h4>
+                    <p class="text-gray-600 text-sm">
+                      AI'ın harici araçları akıllıca kullanmasını sağlayın. API çağrıları, 
+                      veritabanı sorguları ve hesaplamalar otomatik olarak yapılır.
+                    </p>
+                  </div>
+                  
+                  <div class="bg-white border border-gray-200 rounded-lg p-6 hover:shadow-lg transition">
+                    <div class="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center mb-4">
+                      <span class="text-2xl">📐</span>
+                    </div>
+                    <h4 class="font-semibold mb-2">Yapılandırılmış Çıktılar</h4>
+                    <p class="text-gray-600 text-sm">
+                      JSON, XML veya özel formatlarında tutarlı yanıtlar alın. 
+                      Veri işleme ve entegrasyon süreçlerinizi kolaylaştırın.
+                    </p>
+                  </div>
+                  
+                  <div class="bg-white border border-gray-200 rounded-lg p-6 hover:shadow-lg transition">
+                    <div class="w-12 h-12 bg-red-100 rounded-lg flex items-center justify-center mb-4">
+                      <span class="text-2xl">🧠</span>
+                    </div>
+                    <h4 class="font-semibold mb-2">Gelişmiş Mantık</h4>
+                    <p class="text-gray-600 text-sm">
+                      Karmaşık problemleri adım adım çözen reasoning yetenekleri. 
+                      Matematiksel hesaplamalar ve mantıksal çıkarımlar.
+                    </p>
+                  </div>
+                  
+                  <div class="bg-white border border-gray-200 rounded-lg p-6 hover:shadow-lg transition">
+                    <div class="w-12 h-12 bg-indigo-100 rounded-lg flex items-center justify-center mb-4">
+                      <span class="text-2xl">⚡</span>
+                    </div>
+                    <h4 class="font-semibold mb-2">Gerçek Zamanlı</h4>
+                    <p class="text-gray-600 text-sm">
+                      Streaming API ile anlık yanıtlar. Kullanıcılarınız yanıtın 
+                      oluşturulmasını gerçek zamanlı olarak görebilir.
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Architecture Overview -->
+              <div class="bg-gradient-to-r from-gray-50 to-slate-100 border border-gray-200 rounded-lg p-8 mb-8">
+                <h3 class="text-2xl font-bold mb-6">🏗️ Mimari Genel Bakış</h3>
+                <div class="grid gap-8 md:grid-cols-2">
+                  <div>
+                    <h4 class="font-semibold mb-4">API Katmanları</h4>
+                    <div class="space-y-3">
+                      <div class="flex items-center gap-3 p-3 bg-white rounded border">
+                        <div class="w-8 h-8 bg-blue-500 rounded flex items-center justify-center text-white text-sm font-bold">1</div>
+                        <div>
+                          <div class="font-medium">REST API Gateway</div>
+                          <div class="text-sm text-gray-600">HTTP isteklerini karşılar ve yönlendirir</div>
+                        </div>
+                      </div>
+                      <div class="flex items-center gap-3 p-3 bg-white rounded border">
+                        <div class="w-8 h-8 bg-green-500 rounded flex items-center justify-center text-white text-sm font-bold">2</div>
+                        <div>
+                          <div class="font-medium">Authentication Layer</div>
+                          <div class="text-sm text-gray-600">API anahtarı doğrulama ve yetkilendirme</div>
+                        </div>
+                      </div>
+                      <div class="flex items-center gap-3 p-3 bg-white rounded border">
+                        <div class="w-8 h-8 bg-purple-500 rounded flex items-center justify-center text-white text-sm font-bold">3</div>
+                        <div>
+                          <div class="font-medium">Model Inference</div>
+                          <div class="text-sm text-gray-600">AI model çıkarım ve işleme katmanı</div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div>
+                    <h4 class="font-semibold mb-4">Güvenlik ve Performans</h4>
+                    <ul class="space-y-2">
+                      <li class="flex items-center gap-2">
+                        <span class="w-2 h-2 bg-green-500 rounded-full"></span>
+                        <span class="text-sm">End-to-end şifreleme</span>
+                      </li>
+                      <li class="flex items-center gap-2">
+                        <span class="w-2 h-2 bg-green-500 rounded-full"></span>
+                        <span class="text-sm">Rate limiting ve DDoS koruması</span>
+                      </li>
+                      <li class="flex items-center gap-2">
+                        <span class="w-2 h-2 bg-green-500 rounded-full"></span>
+                        <span class="text-sm">Global CDN dağıtımı</span>
+                      </li>
+                      <li class="flex items-center gap-2">
+                        <span class="w-2 h-2 bg-green-500 rounded-full"></span>
+                        <span class="text-sm">Otomatik ölçeklendirme</span>
+                      </li>
+                      <li class="flex items-center gap-2">
+                        <span class="w-2 h-2 bg-green-500 rounded-full"></span>
+                        <span class="text-sm">Real-time monitoring</span>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Use Cases -->
+              <div class="mb-8">
+                <h3 class="text-2xl font-bold mb-6">💡 Kullanım Alanları</h3>
+                <div class="grid gap-6 md:grid-cols-2">
+                  <div class="space-y-4">
+                    <h4 class="text-lg font-semibold">🏢 İş Uygulamaları</h4>
+                    <div class="space-y-3">
+                      <div class="bg-blue-50 border border-blue-200 rounded p-4">
+                        <div class="font-medium text-blue-800">Müşteri Hizmetleri</div>
+                        <div class="text-blue-600 text-sm mt-1">Akıllı chatbot'lar ve otomatik destek sistemleri</div>
+                      </div>
+                      <div class="bg-green-50 border border-green-200 rounded p-4">
+                        <div class="font-medium text-green-800">İçerik Üretimi</div>
+                        <div class="text-green-600 text-sm mt-1">Blog yazıları, ürün açıklamaları ve pazarlama metinleri</div>
+                      </div>
+                      <div class="bg-purple-50 border border-purple-200 rounded p-4">
+                        <div class="font-medium text-purple-800">Veri Analizi</div>
+                        <div class="text-purple-600 text-sm mt-1">Büyük veri setlerinden içgörü çıkarma ve raporlama</div>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div class="space-y-4">
+                    <h4 class="text-lg font-semibold">🔧 Teknik Uygulamalar</h4>
+                    <div class="space-y-3">
+                      <div class="bg-orange-50 border border-orange-200 rounded p-4">
+                        <div class="font-medium text-orange-800">Kod Analizi</div>
+                        <div class="text-orange-600 text-sm mt-1">Otomatik kod inceleme, bug tespiti ve optimizasyon</div>
+                      </div>
+                      <div class="bg-red-50 border border-red-200 rounded p-4">
+                        <div class="font-medium text-red-800">Belge İşleme</div>
+                        <div class="text-red-600 text-sm mt-1">PDF'lerden veri çıkarma ve otomatik özetleme</div>
+                      </div>
+                      <div class="bg-indigo-50 border border-indigo-200 rounded p-4">
+                        <div class="font-medium text-indigo-800">API Entegrasyonu</div>
+                        <div class="text-indigo-600 text-sm mt-1">Harici servisleri akıllı şekilde yönetme</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Getting Started -->
+              <div class="bg-gradient-to-r from-green-50 to-emerald-50 border border-green-200 rounded-lg p-8">
+                <h3 class="text-2xl font-bold mb-4 text-green-800">🎯 Hemen Başlayın</h3>
+                <p class="text-green-700 mb-6">
+                  WYRM API ile çalışmaya başlamak için sadece birkaç adım gerekiyor. 
+                  Aşağıdaki rehberleri takip ederek dakikalar içinde ilk uygulamanızı oluşturabilirsiniz.
+                </p>
+                
+                <div class="grid gap-4 md:grid-cols-3">
+                  <a href="#" onclick="showPage('tutorial')" class="block bg-white border border-green-200 rounded-lg p-4 hover:shadow-md transition">
+                    <div class="text-green-600 text-2xl mb-2">📚</div>
+                    <div class="font-semibold text-green-800">Quickstart Tutorial</div>
+                    <div class="text-green-600 text-sm mt-1">Adım adım başlangıç rehberi</div>
+                  </a>
+                  
+                  <a href="#" onclick="showPage('tool-use')" class="block bg-white border border-green-200 rounded-lg p-4 hover:shadow-md transition">
+                    <div class="text-green-600 text-2xl mb-2">⚙️</div>
+                    <div class="font-semibold text-green-800">Function Calling</div>
+                    <div class="text-green-600 text-sm mt-1">Gelişmiş araç entegrasyonu</div>
+                  </a>
+                  
+                  <a href="#" onclick="showPage('endpoints')" class="block bg-white border border-green-200 rounded-lg p-4 hover:shadow-md transition">
+                    <div class="text-green-600 text-2xl mb-2">🔗</div>
+                    <div class="font-semibold text-green-800">API Reference</div>
+                    <div class="text-green-600 text-sm mt-1">Detaylı endpoint dokümantasyonu</div>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Tutorial Page -->
+          <div id="tutorial-page" class="page-content">
+            <nav class="text-sm text-muted-foreground mb-4">
+              <ol class="flex items-center gap-2">
+                <li><a href="#" onclick="showPage('welcome')" class="hover:underline">Docs</a></li>
+                <li>/</li>
+                <li class="text-foreground">Tutorial</li>
+              </ol>
+            </nav>
+            <h1 class="text-3xl font-bold mb-4">Quickstart Tutorial</h1>
+            
+            <!-- Tutorial Hero Image -->
+            <div class="relative rounded-lg overflow-hidden mb-8 h-48">
+              <img src="https://images.unsplash.com/photo-1555949963-aa79dcee981c?w=1200&q=80" 
+                   alt="Programming Tutorial" 
+                   class="w-full h-full object-cover"
+                   onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+              <div class="absolute inset-0 bg-gradient-to-r from-blue-900/80 to-purple-900/80" style="display: none;"></div>
+              <div class="absolute inset-0 bg-gradient-to-r from-blue-900/60 to-purple-900/60"></div>
+              <div class="absolute inset-0 flex items-center justify-center">
+                <h2 class="text-white text-2xl font-bold">API'ye Hızlı Başlangıç</h2>
+              </div>
+            </div>
+            
+            <div class="prose max-w-none">
+              <p class="text-foreground/70 mb-6">WYRM API ile ilk isteğinizi yapmak için kapsamlı adım adım rehber. Bu tutorial, API'yi kullanmaya başlamanız için gereken tüm bilgileri içerir.</p>
+              
+              <!-- Prerequisites -->
+              <div class="bg-blue-50 border border-blue-200 rounded-lg p-6 mb-6">
+                <h3 class="text-lg font-semibold mb-3 text-blue-800">📋 Ön Koşullar</h3>
+                <ul class="space-y-2 text-blue-700">
+                  <li class="flex items-center gap-2">
+                    <span class="w-2 h-2 bg-blue-500 rounded-full"></span>
+                    WYRM hesabı (ücretsiz kayıt olabilirsiniz)
+                  </li>
+                  <li class="flex items-center gap-2">
+                    <span class="w-2 h-2 bg-blue-500 rounded-full"></span>
+                    Temel HTTP istekleri bilgisi
+                  </li>
+                  <li class="flex items-center gap-2">
+                    <span class="w-2 h-2 bg-blue-500 rounded-full"></span>
+                    Terminal veya kod editörü erişimi
+                  </li>
+                </ul>
+              </div>
+
+              <!-- Step 1 -->
+              <div class="bg-card rounded-lg p-6 mb-6">
+                <h3 class="text-lg font-semibold mb-3 text-card-foreground">🔑 1. API Anahtarı Oluşturun</h3>
+                <p class="text-card-foreground/80 mb-4">WYRM Dashboard'a giriş yapın ve API anahtarınızı oluşturun. Bu anahtar, tüm API isteklerinizde kimlik doğrulama için kullanılacak.</p>
+                
+                <div class="space-y-4">
+                  <div>
+                    <h4 class="font-medium text-card-foreground mb-2">Adımlar:</h4>
+                    <ol class="list-decimal list-inside space-y-1 text-card-foreground/80 text-sm">
+                      <li>WYRM Dashboard'a giriş yapın</li>
+                      <li>Sol menüden "API Keys" sekmesine tıklayın</li>
+                      <li>"Create New Key" butonuna basın</li>
+                      <li>Anahtarınıza bir isim verin (örn: "My First Project")</li>
+                      <li>Oluşturulan anahtarı güvenli bir yere kaydedin</li>
+                    </ol>
+                  </div>
+                  
+                  <div class="bg-black rounded p-3 text-green-400 font-mono text-sm">
+                    # Anahtarınızı environment variable olarak ayarlayın<br>
+                    export WYRM_API_KEY="wyrm-1234567890abcdef..."<br><br>
+                    # Veya .env dosyasında saklayın<br>
+                    echo "WYRM_API_KEY=wyrm-1234567890abcdef..." >> .env
+                  </div>
+                </div>
+              </div>
+
+              <!-- Step 2 -->
+              <div class="bg-card rounded-lg p-6 mb-6">
+                <h3 class="text-lg font-semibold mb-3 text-card-foreground">🚀 2. İlk İsteğinizi Yapın</h3>
+                <p class="text-card-foreground/80 mb-4">Basit bir metin tamamlama isteği ile API'yi test edin:</p>
+                
+                <div class="space-y-4">
+                  <div>
+                    <h4 class="font-medium text-card-foreground mb-2">cURL ile:</h4>
+                    <div class="bg-black rounded p-3 text-green-400 font-mono text-sm">
+                      curl -X POST "https://api.wyrm.ai/v1/chat/completions" \<br>
+                      &nbsp;&nbsp;-H "Authorization: Bearer $WYRM_API_KEY" \<br>
+                      &nbsp;&nbsp;-H "Content-Type: application/json" \<br>
+                      &nbsp;&nbsp;-d '{<br>
+                      &nbsp;&nbsp;&nbsp;&nbsp;"model": "wyrm-1",<br>
+                      &nbsp;&nbsp;&nbsp;&nbsp;"messages": [<br>
+                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{"role": "user", "content": "Merhaba WYRM! Nasılsın?"}<br>
+                      &nbsp;&nbsp;&nbsp;&nbsp;],<br>
+                      &nbsp;&nbsp;&nbsp;&nbsp;"max_tokens": 150,<br>
+                      &nbsp;&nbsp;&nbsp;&nbsp;"temperature": 0.7<br>
+                      &nbsp;&nbsp;}'
+                    </div>
+                  </div>
+
+                  <div>
+                    <h4 class="font-medium text-card-foreground mb-2">Python ile:</h4>
+                    <div class="bg-black rounded p-3 text-green-400 font-mono text-sm">
+                      import requests<br>
+                      import os<br><br>
+                      
+                      url = "https://api.wyrm.ai/v1/chat/completions"<br>
+                      headers = {<br>
+                      &nbsp;&nbsp;"Authorization": f"Bearer {os.getenv('WYRM_API_KEY')}",<br>
+                      &nbsp;&nbsp;"Content-Type": "application/json"<br>
+                      }<br><br>
+                      
+                      data = {<br>
+                      &nbsp;&nbsp;"model": "wyrm-1",<br>
+                      &nbsp;&nbsp;"messages": [{"role": "user", "content": "Merhaba WYRM!"}],<br>
+                      &nbsp;&nbsp;"max_tokens": 150<br>
+                      }<br><br>
+                      
+                      response = requests.post(url, headers=headers, json=data)<br>
+                      print(response.json())
+                    </div>
+                  </div>
+
+                  <div>
+                    <h4 class="font-medium text-card-foreground mb-2">JavaScript ile:</h4>
+                    <div class="bg-black rounded p-3 text-green-400 font-mono text-sm">
+                      const response = await fetch('https://api.wyrm.ai/v1/chat/completions', {<br>
+                      &nbsp;&nbsp;method: 'POST',<br>
+                      &nbsp;&nbsp;headers: {<br>
+                      &nbsp;&nbsp;&nbsp;&nbsp;'Authorization': `Bearer ${process.env.WYRM_API_KEY}`,<br>
+                      &nbsp;&nbsp;&nbsp;&nbsp;'Content-Type': 'application/json'<br>
+                      &nbsp;&nbsp;},<br>
+                      &nbsp;&nbsp;body: JSON.stringify({<br>
+                      &nbsp;&nbsp;&nbsp;&nbsp;model: 'wyrm-1',<br>
+                      &nbsp;&nbsp;&nbsp;&nbsp;messages: [{role: 'user', content: 'Merhaba WYRM!'}],<br>
+                      &nbsp;&nbsp;&nbsp;&nbsp;max_tokens: 150<br>
+                      &nbsp;&nbsp;})<br>
+                      });<br><br>
+                      
+                      const data = await response.json();<br>
+                      console.log(data);
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Step 3 -->
+              <div class="bg-card rounded-lg p-6 mb-6">
+                <h3 class="text-lg font-semibold mb-3 text-card-foreground">📊 3. Yanıtı Anlayın</h3>
+                <p class="text-card-foreground/80 mb-4">API'den gelen yanıt şu formatta olacaktır:</p>
+                
+                <div class="bg-black rounded p-3 text-green-400 font-mono text-sm">
+                  {<br>
+                  &nbsp;&nbsp;"id": "chatcmpl-123",<br>
+                  &nbsp;&nbsp;"object": "chat.completion",<br>
+                  &nbsp;&nbsp;"created": 1677652288,<br>
+                  &nbsp;&nbsp;"model": "wyrm-1",<br>
+                  &nbsp;&nbsp;"choices": [{<br>
+                  &nbsp;&nbsp;&nbsp;&nbsp;"index": 0,<br>
+                  &nbsp;&nbsp;&nbsp;&nbsp;"message": {<br>
+                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"role": "assistant",<br>
+                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"content": "Merhaba! Ben WYRM, çok iyiyim teşekkürler..."<br>
+                  &nbsp;&nbsp;&nbsp;&nbsp;},<br>
+                  &nbsp;&nbsp;&nbsp;&nbsp;"finish_reason": "stop"<br>
+                  &nbsp;&nbsp;}],<br>
+                  &nbsp;&nbsp;"usage": {<br>
+                  &nbsp;&nbsp;&nbsp;&nbsp;"prompt_tokens": 10,<br>
+                  &nbsp;&nbsp;&nbsp;&nbsp;"completion_tokens": 25,<br>
+                  &nbsp;&nbsp;&nbsp;&nbsp;"total_tokens": 35<br>
+                  &nbsp;&nbsp;}<br>
+                  }
+                </div>
+              </div>
+
+              <!-- Advanced Features -->
+              <div class="bg-gradient-to-r from-purple-50 to-pink-50 border border-purple-200 rounded-lg p-6 mb-6">
+                <h3 class="text-lg font-semibold mb-3 text-purple-800">🎯 Gelişmiş Özellikler</h3>
+                <div class="grid gap-4 md:grid-cols-2">
+                  <div>
+                    <h4 class="font-medium text-purple-700 mb-2">Streaming Yanıtlar</h4>
+                    <p class="text-purple-600 text-sm">Gerçek zamanlı yanıt akışı için stream=true parametresini kullanın.</p>
+                  </div>
+                  <div>
+                    <h4 class="font-medium text-purple-700 mb-2">Fonksiyon Çağırma</h4>
+                    <p class="text-purple-600 text-sm">Harici araçları entegre etmek için tools parametresini kullanın.</p>
+                  </div>
+                  <div>
+                    <h4 class="font-medium text-purple-700 mb-2">Görsel İşleme</h4>
+                    <p class="text-purple-600 text-sm">Resim analizi için messages içinde image_url ekleyin.</p>
+                  </div>
+                  <div>
+                    <h4 class="font-medium text-purple-700 mb-2">Yapılandırılmış Çıktı</h4>
+                    <p class="text-purple-600 text-sm">JSON formatında yanıt almak için response_format kullanın.</p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Error Handling -->
+              <div class="bg-red-50 border border-red-200 rounded-lg p-6 mb-6">
+                <h3 class="text-lg font-semibold mb-3 text-red-800">⚠️ Hata Yönetimi</h3>
+                <div class="space-y-3">
+                  <div>
+                    <h4 class="font-medium text-red-700">Yaygın Hatalar:</h4>
+                    <ul class="space-y-1 text-red-600 text-sm mt-2">
+                      <li><strong>401 Unauthorized:</strong> API anahtarınızı kontrol edin</li>
+                      <li><strong>429 Rate Limited:</strong> İstek hızınızı azaltın</li>
+                      <li><strong>400 Bad Request:</strong> İstek formatınızı kontrol edin</li>
+                      <li><strong>500 Server Error:</strong> Birkaç saniye sonra tekrar deneyin</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Next Steps -->
+              <div class="bg-green-50 border border-green-200 rounded-lg p-6">
+                <h3 class="text-lg font-semibold mb-3 text-green-800">🎉 Sonraki Adımlar</h3>
+                <div class="grid gap-4 md:grid-cols-2">
+                  <div>
+                    <h4 class="font-medium text-green-700 mb-2">Öğrenmeye Devam Edin:</h4>
+                    <ul class="space-y-1 text-green-600 text-sm">
+                      <li>• <a href="#" onclick="showPage('tool-use')" class="underline">Tool Use rehberini</a> inceleyin</li>
+                      <li>• <a href="#" onclick="showPage('images')" class="underline">Görsel işleme</a> özelliklerini keşfedin</li>
+                      <li>• <a href="#" onclick="showPage('streaming')" class="underline">Streaming</a> ile gerçek zamanlı yanıtlar alın</li>
+                    </ul>
+                  </div>
+                  <div>
+                    <h4 class="font-medium text-green-700 mb-2">Topluluk:</h4>
+                    <ul class="space-y-1 text-green-600 text-sm">
+                      <li>• <a href="#" onclick="showPage('discord')" class="underline">Discord</a> topluluğumuza katılın</li>
+                      <li>• GitHub'da örnek projeleri inceleyin</li>
+                      <li>• Blog yazılarımızı takip edin</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Models & Pricing Page -->
+          <div id="models-pricing-page" class="page-content">
+            <nav class="text-sm text-muted-foreground mb-4">
+              <ol class="flex items-center gap-2">
+                <li><a href="#" onclick="showPage('welcome')" class="hover:underline">Docs</a></li>
+                <li>/</li>
+                <li class="text-foreground">Models & Pricing</li>
+              </ol>
+            </nav>
+            <h1 class="text-3xl font-bold mb-4">Models & Pricing</h1>
+            <div class="prose max-w-none">
+              <p class="text-foreground/70 mb-6">WYRM model ailesi ve fiyatlandırma bilgileri.</p>
+              
+              <div class="grid gap-6 md:grid-cols-2 mb-8">
+                <div class="border border-border rounded-lg p-6">
+                  <h3 class="text-xl font-semibold mb-3">WYRM-1</h3>
+                  <p class="text-foreground/70 mb-4">Genel amaçlı, yüksek performanslı model</p>
+                  <div class="space-y-2">
+                    <div class="flex justify-between">
+                      <span>Input:</span>
+                      <span class="font-mono">$0.15/1M tokens</span>
+                    </div>
+                    <div class="flex justify-between">
+                      <span>Output:</span>
+                      <span class="font-mono">$0.60/1M tokens</span>
+                    </div>
+                  </div>
+                </div>
+                
+                <div class="border border-border rounded-lg p-6">
+                  <h3 class="text-xl font-semibold mb-3">WYRM-1-Mini</h3>
+                  <p class="text-foreground/70 mb-4">Hızlı ve ekonomik model</p>
+                  <div class="space-y-2">
+                    <div class="flex justify-between">
+                      <span>Input:</span>
+                      <span class="font-mono">$0.05/1M tokens</span>
+                    </div>
+                    <div class="flex justify-between">
+                      <span>Output:</span>
+                      <span class="font-mono">$0.20/1M tokens</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Tool Use Page -->
+          <div id="tool-use-page" class="page-content">
+            <nav class="text-sm text-muted-foreground mb-4">
+              <ol class="flex items-center gap-2">
+                <li><a href="#" onclick="showPage('welcome')" class="hover:underline">Docs</a></li>
+                <li>/</li>
+                <li class="text-foreground">Tool Use</li>
+              </ol>
+            </nav>
+            <h1 class="text-3xl font-bold mb-4">Tool Use (Function Calling)</h1>
+            <div class="prose max-w-none">
+              <p class="text-foreground/70 mb-6">WYRM'ın gelişmiş fonksiyon çağırma özelliği ile harici araçları güvenle entegre edin. Bu özellik, AI modelinizin gerçek dünya verileriyle etkileşim kurmasını ve karmaşık görevleri yerine getirmesini sağlar.</p>
+              
+              <!-- Overview -->
+              <div class="bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200 rounded-lg p-6 mb-6">
+                <h3 class="text-lg font-semibold mb-3 text-blue-800">🔧 Fonksiyon Çağırma Nedir?</h3>
+                <p class="text-blue-700 mb-4">WYRM'ın fonksiyon çağırma özelliği, AI modelinin belirlediğiniz fonksiyonları akıllıca seçip çağırmasını sağlar. Model, kullanıcının isteğini analiz ederek hangi fonksiyonun gerekli olduğunu belirler ve uygun parametrelerle çağırır.</p>
+                
+                <div class="grid gap-4 md:grid-cols-3 mt-4">
+                  <div class="bg-white/50 rounded p-3">
+                    <div class="font-medium text-blue-800 mb-1">🌐 API Entegrasyonu</div>
+                    <div class="text-sm text-blue-600">Harici API'leri çağırın</div>
+                  </div>
+                  <div class="bg-white/50 rounded p-3">
+                    <div class="font-medium text-blue-800 mb-1">🗄️ Veritabanı İşlemleri</div>
+                    <div class="text-sm text-blue-600">Veri sorgulama ve güncelleme</div>
+                  </div>
+                  <div class="bg-white/50 rounded p-3">
+                    <div class="font-medium text-blue-800 mb-1">🧮 Hesaplamalar</div>
+                    <div class="text-sm text-blue-600">Karmaşık matematiksel işlemler</div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Basic Example -->
+              <div class="bg-card rounded-lg p-6 mb-6">
+                <h3 class="text-lg font-semibold mb-3 text-card-foreground">🚀 Temel Örnek: Hava Durumu</h3>
+                <p class="text-card-foreground/80 mb-4">Basit bir hava durumu fonksiyonu tanımlayalım:</p>
+                
+                <div class="space-y-4">
+                  <div>
+                    <h4 class="font-medium text-card-foreground mb-2">1. Fonksiyon Tanımı:</h4>
+                    <div class="bg-black rounded p-3 text-green-400 font-mono text-sm">
+                      {<br>
+                      &nbsp;&nbsp;"model": "wyrm-1",<br>
+                      &nbsp;&nbsp;"messages": [<br>
+                      &nbsp;&nbsp;&nbsp;&nbsp;{"role": "user", "content": "İstanbul'da hava nasıl?"}<br>
+                      &nbsp;&nbsp;],<br>
+                      &nbsp;&nbsp;"tools": [{<br>
+                      &nbsp;&nbsp;&nbsp;&nbsp;"type": "function",<br>
+                      &nbsp;&nbsp;&nbsp;&nbsp;"function": {<br>
+                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"name": "get_weather",<br>
+                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"description": "Belirtilen şehir için güncel hava durumu bilgisi al",<br>
+                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"parameters": {<br>
+                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"type": "object",<br>
+                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"properties": {<br>
+                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"city": {<br>
+                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"type": "string",<br>
+                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"description": "Şehir adı"<br>
+                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;},<br>
+                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"unit": {<br>
+                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"type": "string",<br>
+                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"enum": ["celsius", "fahrenheit"],<br>
+                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"description": "Sıcaklık birimi"<br>
+                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;},<br>
+                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"required": ["city"]<br>
+                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                      &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                      &nbsp;&nbsp;}]<br>
+                      }
+                    </div>
+                  </div>
+
+                  <div>
+                    <h4 class="font-medium text-card-foreground mb-2">2. Model Yanıtı:</h4>
+                    <div class="bg-black rounded p-3 text-green-400 font-mono text-sm">
+                      {<br>
+                      &nbsp;&nbsp;"choices": [{<br>
+                      &nbsp;&nbsp;&nbsp;&nbsp;"message": {<br>
+                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"role": "assistant",<br>
+                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"content": null,<br>
+                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"tool_calls": [{<br>
+                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"id": "call_123",<br>
+                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"type": "function",<br>
+                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"function": {<br>
+                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"name": "get_weather",<br>
+                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"arguments": "{\"city\": \"İstanbul\", \"unit\": \"celsius\"}"<br>
+                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}]<br>
+                      &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                      &nbsp;&nbsp;}]<br>
+                      }
+                    </div>
+                  </div>
+
+                  <div>
+                    <h4 class="font-medium text-card-foreground mb-2">3. Fonksiyon Sonucunu Geri Gönderme:</h4>
+                    <div class="bg-black rounded p-3 text-green-400 font-mono text-sm">
+                      {<br>
+                      &nbsp;&nbsp;"messages": [<br>
+                      &nbsp;&nbsp;&nbsp;&nbsp;{"role": "user", "content": "İstanbul'da hava nasıl?"},<br>
+                      &nbsp;&nbsp;&nbsp;&nbsp;{"role": "assistant", "tool_calls": [...]},<br>
+                      &nbsp;&nbsp;&nbsp;&nbsp;{<br>
+                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"role": "tool",<br>
+                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"tool_call_id": "call_123",<br>
+                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"content": "{\"temperature\": 22, \"condition\": \"sunny\", \"humidity\": 65}"<br>
+                      &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                      &nbsp;&nbsp;]<br>
+                      }
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Advanced Examples -->
+              <div class="bg-gradient-to-r from-purple-50 to-pink-50 border border-purple-200 rounded-lg p-6 mb-6">
+                <h3 class="text-lg font-semibold mb-3 text-purple-800">🎯 Gelişmiş Örnekler</h3>
+                
+                <div class="space-y-6">
+                  <!-- E-commerce Example -->
+                  <div>
+                    <h4 class="font-medium text-purple-700 mb-3">🛒 E-ticaret Entegrasyonu</h4>
+                    <div class="bg-white/50 rounded p-4">
+                      <div class="bg-black rounded p-3 text-green-400 font-mono text-sm">
+                        "tools": [{<br>
+                        &nbsp;&nbsp;"type": "function",<br>
+                        &nbsp;&nbsp;"function": {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;"name": "search_products",<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;"description": "Ürün arama ve filtreleme",<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;"parameters": {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"type": "object",<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"properties": {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"query": {"type": "string"},<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"category": {"type": "string"},<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"price_range": {"type": "object"},<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"sort_by": {"enum": ["price", "rating", "popularity"]}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;}<br>
+                        }]
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Database Example -->
+                  <div>
+                    <h4 class="font-medium text-purple-700 mb-3">🗄️ Veritabanı İşlemleri</h4>
+                    <div class="bg-white/50 rounded p-4">
+                      <div class="bg-black rounded p-3 text-green-400 font-mono text-sm">
+                        "tools": [{<br>
+                        &nbsp;&nbsp;"type": "function",<br>
+                        &nbsp;&nbsp;"function": {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;"name": "query_database",<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;"description": "Veritabanından veri sorgula",<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;"parameters": {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"type": "object",<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"properties": {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"table": {"type": "string"},<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"filters": {"type": "object"},<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"limit": {"type": "integer", "maximum": 100}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;}<br>
+                        }]
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Calculation Example -->
+                  <div>
+                    <h4 class="font-medium text-purple-700 mb-3">🧮 Matematiksel Hesaplamalar</h4>
+                    <div class="bg-white/50 rounded p-4">
+                      <div class="bg-black rounded p-3 text-green-400 font-mono text-sm">
+                        "tools": [{<br>
+                        &nbsp;&nbsp;"type": "function",<br>
+                        &nbsp;&nbsp;"function": {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;"name": "calculate_loan",<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;"description": "Kredi hesaplama",<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;"parameters": {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"type": "object",<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"properties": {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"principal": {"type": "number"},<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"rate": {"type": "number"},<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"term_months": {"type": "integer"}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;}<br>
+                        }]
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Best Practices -->
+              <div class="bg-green-50 border border-green-200 rounded-lg p-6 mb-6">
+                <h3 class="text-lg font-semibold mb-3 text-green-800">✅ En İyi Uygulamalar</h3>
+                <div class="grid gap-4 md:grid-cols-2">
+                  <div>
+                    <h4 class="font-medium text-green-700 mb-2">Fonksiyon Tasarımı</h4>
+                    <ul class="space-y-1 text-green-600 text-sm">
+                      <li>• Açık ve net fonksiyon isimleri kullanın</li>
+                      <li>• Detaylı açıklamalar yazın</li>
+                      <li>• Parametreleri doğru tiplerle tanımlayın</li>
+                      <li>• Gerekli parametreleri belirtin</li>
+                    </ul>
+                  </div>
+                  <div>
+                    <h4 class="font-medium text-green-700 mb-2">Güvenlik</h4>
+                    <ul class="space-y-1 text-green-600 text-sm">
+                      <li>• Girdi doğrulaması yapın</li>
+                      <li>• Rate limiting uygulayın</li>
+                      <li>• Hassas verileri loglamayın</li>
+                      <li>• Hata mesajlarını kontrol edin</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Error Handling -->
+              <div class="bg-red-50 border border-red-200 rounded-lg p-6 mb-6">
+                <h3 class="text-lg font-semibold mb-3 text-red-800">⚠️ Hata Yönetimi</h3>
+                <div class="space-y-4">
+                  <div>
+                    <h4 class="font-medium text-red-700 mb-2">Yaygın Hatalar ve Çözümleri:</h4>
+                    <div class="space-y-2 text-red-600 text-sm">
+                      <div class="bg-white/50 rounded p-3">
+                        <strong>Invalid function schema:</strong> JSON schema formatını kontrol edin
+                      </div>
+                      <div class="bg-white/50 rounded p-3">
+                        <strong>Function timeout:</strong> Fonksiyon çalışma süresini optimize edin
+                      </div>
+                      <div class="bg-white/50 rounded p-3">
+                        <strong>Parameter validation error:</strong> Parametre tiplerini doğrulayın
+                      </div>
+                    </div>
+                  </div>
+
+                  <div>
+                    <h4 class="font-medium text-red-700 mb-2">Hata Yanıtı Örneği:</h4>
+                    <div class="bg-black rounded p-3 text-green-400 font-mono text-sm">
+                      {<br>
+                      &nbsp;&nbsp;"role": "tool",<br>
+                      &nbsp;&nbsp;"tool_call_id": "call_123",<br>
+                      &nbsp;&nbsp;"content": "{\"error\": \"City not found\", \"code\": \"CITY_NOT_FOUND\"}"<br>
+                      }
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Multiple Tools -->
+              <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-6 mb-6">
+                <h3 class="text-lg font-semibold mb-3 text-yellow-800">🔄 Çoklu Fonksiyon Kullanımı</h3>
+                <p class="text-yellow-700 mb-4">WYRM, tek bir istekte birden fazla fonksiyon çağırabilir ve sonuçları birleştirerek kapsamlı yanıtlar üretebilir.</p>
+                
+                <div class="bg-black rounded p-3 text-green-400 font-mono text-sm">
+                  # Örnek: Seyahat planlaması<br>
+                  "tools": [<br>
+                  &nbsp;&nbsp;{"function": {"name": "get_weather"}},<br>
+                  &nbsp;&nbsp;{"function": {"name": "find_hotels"}},<br>
+                  &nbsp;&nbsp;{"function": {"name": "search_flights"}},<br>
+                  &nbsp;&nbsp;{"function": {"name": "get_attractions"}}<br>
+                  ]
+                </div>
+              </div>
+
+              <!-- Performance Tips -->
+              <div class="bg-indigo-50 border border-indigo-200 rounded-lg p-6">
+                <h3 class="text-lg font-semibold mb-3 text-indigo-800">⚡ Performans İpuçları</h3>
+                <div class="grid gap-4 md:grid-cols-2">
+                  <div>
+                    <h4 class="font-medium text-indigo-700 mb-2">Optimizasyon</h4>
+                    <ul class="space-y-1 text-indigo-600 text-sm">
+                      <li>• Fonksiyon sayısını makul tutun (max 10)</li>
+                      <li>• Gereksiz parametreleri kaldırın</li>
+                      <li>• Caching mekanizması kullanın</li>
+                      <li>• Asenkron işlemleri tercih edin</li>
+                    </ul>
+                  </div>
+                  <div>
+                    <h4 class="font-medium text-indigo-700 mb-2">Monitoring</h4>
+                    <ul class="space-y-1 text-indigo-600 text-sm">
+                      <li>• Fonksiyon çağrı sürelerini izleyin</li>
+                      <li>• Hata oranlarını takip edin</li>
+                      <li>• Token kullanımını optimize edin</li>
+                      <li>• Kullanıcı deneyimini ölçün</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Images Page -->
+          <div id="images-page" class="page-content">
+            <nav class="text-sm text-muted-foreground mb-4">
+              <ol class="flex items-center gap-2">
+                <li><a href="#" onclick="showPage('welcome')" class="hover:underline">Docs</a></li>
+                <li>/</li>
+                <li class="text-foreground">Images & OCR</li>
+              </ol>
+            </nav>
+            <h1 class="text-3xl font-bold mb-4">Görsel İşleme ve OCR</h1>
+            
+            <!-- Hero Section with Visual Processing Theme -->
+            <div class="relative rounded-lg overflow-hidden bg-gradient-to-br from-cyan-900 via-blue-900 to-indigo-900 text-white mb-8">
+              <div class="absolute inset-0">
+                <img src="https://images.unsplash.com/photo-1633412802994-5c058f151b66?w=1200&q=80" 
+                     alt="Computer Vision and OCR Technology" 
+                     class="w-full h-full object-cover opacity-25"
+                     onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                <svg class="w-full h-full opacity-25" viewBox="0 0 600 300" style="display: none;">
+                  <!-- Camera/lens visualization -->
+                  <circle cx="300" cy="150" r="80" fill="none" stroke="#60a5fa" stroke-width="3" opacity="0.6"/>
+                  <circle cx="300" cy="150" r="60" fill="none" stroke="#34d399" stroke-width="2" opacity="0.5"/>
+                  <circle cx="300" cy="150" r="40" fill="none" stroke="#f59e0b" stroke-width="2" opacity="0.4"/>
+                  <circle cx="300" cy="150" r="20" fill="#ec4899" opacity="0.3"/>
+                  
+                  <!-- Scanning lines -->
+                  <line x1="100" y1="100" x2="500" y2="100" stroke="#60a5fa" stroke-width="2" opacity="0.4">
+                    <animate attributeName="opacity" values="0.4;0.8;0.4" dur="2s" repeatCount="indefinite"/>
+                  </line>
+                  <line x1="100" y1="150" x2="500" y2="150" stroke="#34d399" stroke-width="2" opacity="0.4">
+                    <animate attributeName="opacity" values="0.4;0.8;0.4" dur="2s" repeatCount="indefinite" begin="0.5s"/>
+                  </line>
+                  <line x1="100" y1="200" x2="500" y2="200" stroke="#f59e0b" stroke-width="2" opacity="0.4">
+                    <animate attributeName="opacity" values="0.4;0.8;0.4" dur="2s" repeatCount="indefinite" begin="1s"/>
+                  </line>
+                  
+                  <!-- Corner detection points -->
+                  <rect x="120" y="80" width="8" height="8" fill="#60a5fa" opacity="0.8"/>
+                  <rect x="180" y="120" width="8" height="8" fill="#34d399" opacity="0.8"/>
+                  <rect x="420" y="90" width="8" height="8" fill="#f59e0b" opacity="0.8"/>
+                  <rect x="460" y="180" width="8" height="8" fill="#ec4899" opacity="0.8"/>
+                </svg>
+              </div>
+              <div class="relative p-8">
+                <h2 class="text-2xl font-bold mb-4">Gelişmiş Görsel İşleme Teknolojisi</h2>
+                <p class="text-white/90 mb-6 max-w-3xl">
+                  WYRM'ın güçlü görsel işleme yetenekleri ile resimlerden metin çıkarın, 
+                  görselleri analiz edin ve karmaşık görsel verileri anlayın. OCR, nesne tespiti 
+                  ve görsel soru-cevap özelliklerini keşfedin.
+                </p>
+              </div>
+            </div>
+
+            <div class="prose max-w-none">
+              <p class="text-foreground/70 mb-8 text-lg">
+                WYRM ile görsel analiz ve optik karakter tanıma (OCR) işlemleri yapabilirsiniz. 
+                Gelişmiş bilgisayar görüsü algoritmaları sayesinde resimlerden değerli bilgiler 
+                çıkarabilir ve görsel içeriği metne dönüştürebilirsiniz.
+              </p>
+              
+              <!-- Core Capabilities -->
+              <div class="bg-gradient-to-r from-cyan-50 to-blue-50 border border-cyan-200 rounded-lg p-8 mb-8">
+                <div class="flex items-center gap-3 mb-4">
+                  <div class="w-10 h-10 bg-cyan-500 rounded-lg flex items-center justify-center">
+                    <span class="text-white text-xl">📸</span>
+                  </div>
+                  <h3 class="text-2xl font-bold text-cyan-800">Görsel İşleme Yetenekleri</h3>
+                </div>
+                <p class="text-cyan-700 mb-6 text-lg">
+                  WYRM, görselleri analiz edebilir, içeriğini açıklayabilir, metinleri okuyabilir 
+                  ve karmaşık görsel sorulara yanıt verebilir. Makine öğrenmesi tabanlı algoritmalar 
+                  ile yüksek doğruluk oranında sonuçlar elde edin.
+                </p>
+                
+                <div class="grid gap-6 md:grid-cols-3">
+                  <div>
+                    <h4 class="font-semibold text-cyan-800 mb-3">🔍 Görsel Analiz</h4>
+                    <p class="text-cyan-600 text-sm">
+                      Resim içeriğini detaylı şekilde analiz eder, nesneleri tanır ve 
+                      sahne kompozisyonunu açıklar.
+                    </p>
+                  </div>
+                  <div>
+                    <h4 class="font-semibold text-cyan-800 mb-3">📝 OCR Teknolojisi</h4>
+                    <p class="text-cyan-600 text-sm">
+                      Resimlerden metinleri yüksek doğrulukla çıkarır, el yazısı ve 
+                      basılı metinleri tanır.
+                    </p>
+                  </div>
+                  <div>
+                    <h4 class="font-semibold text-cyan-800 mb-3">❓ Görsel Soru-Cevap</h4>
+                    <p class="text-cyan-600 text-sm">
+                      Resimler hakkında sorular sorun ve detaylı yanıtlar alın. 
+                      Görsel içeriği anlayarak cevap verir.
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Supported Formats -->
+              <div class="grid gap-6 md:grid-cols-2 mb-8">
+                <div class="bg-white border border-gray-200 rounded-lg p-6 hover:shadow-lg transition">
+                  <div class="flex items-center gap-3 mb-4">
+                    <div class="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center">
+                      <span class="text-green-600">📁</span>
+                    </div>
+                    <h3 class="text-lg font-semibold">Desteklenen Formatlar</h3>
+                  </div>
+                  <ul class="space-y-2">
+                    <li class="flex items-center gap-2">
+                      <span class="w-2 h-2 bg-green-500 rounded-full"></span>
+                      <span class="text-sm">JPEG, JPG (yüksek kalite)</span>
+                    </li>
+                    <li class="flex items-center gap-2">
+                      <span class="w-2 h-2 bg-green-500 rounded-full"></span>
+                      <span class="text-sm">PNG (şeffaflık desteği)</span>
+                    </li>
+                    <li class="flex items-center gap-2">
+                      <span class="w-2 h-2 bg-green-500 rounded-full"></span>
+                      <span class="text-sm">WebP (modern format)</span>
+                    </li>
+                    <li class="flex items-center gap-2">
+                      <span class="w-2 h-2 bg-green-500 rounded-full"></span>
+                      <span class="text-sm">GIF (ilk kare analizi)</span>
+                    </li>
+                    <li class="flex items-center gap-2">
+                      <span class="w-2 h-2 bg-blue-500 rounded-full"></span>
+                      <span class="text-sm">Base64 kodlu görseller</span>
+                    </li>
+                    <li class="flex items-center gap-2">
+                      <span class="w-2 h-2 bg-blue-500 rounded-full"></span>
+                      <span class="text-sm">URL'den görsel yükleme</span>
+                    </li>
+                  </ul>
+                </div>
+                
+                <div class="bg-white border border-gray-200 rounded-lg p-6 hover:shadow-lg transition">
+                  <div class="flex items-center gap-3 mb-4">
+                    <div class="w-8 h-8 bg-purple-100 rounded-lg flex items-center justify-center">
+                      <span class="text-purple-600">🎯</span>
+                    </div>
+                    <h3 class="text-lg font-semibold">Kullanım Alanları</h3>
+                  </div>
+                  <ul class="space-y-2">
+                    <li class="flex items-center gap-2">
+                      <span class="w-2 h-2 bg-purple-500 rounded-full"></span>
+                      <span class="text-sm">Belge dijitalleştirme</span>
+                    </li>
+                    <li class="flex items-center gap-2">
+                      <span class="w-2 h-2 bg-purple-500 rounded-full"></span>
+                      <span class="text-sm">Fatura ve makbuz işleme</span>
+                    </li>
+                    <li class="flex items-center gap-2">
+                      <span class="w-2 h-2 bg-purple-500 rounded-full"></span>
+                      <span class="text-sm">Kimlik belgesi doğrulama</span>
+                    </li>
+                    <li class="flex items-center gap-2">
+                      <span class="w-2 h-2 bg-purple-500 rounded-full"></span>
+                      <span class="text-sm">Ürün katalog analizi</span>
+                    </li>
+                    <li class="flex items-center gap-2">
+                      <span class="w-2 h-2 bg-orange-500 rounded-full"></span>
+                      <span class="text-sm">Medikal görüntü analizi</span>
+                    </li>
+                    <li class="flex items-center gap-2">
+                      <span class="w-2 h-2 bg-orange-500 rounded-full"></span>
+                      <span class="text-sm">Güvenlik kamerası analizi</span>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+
+              <!-- API Usage Examples -->
+              <div class="bg-card rounded-lg p-6 mb-8">
+                <h3 class="text-lg font-semibold mb-4 text-card-foreground">🚀 API Kullanım Örnekleri</h3>
+                
+                <div class="space-y-6">
+                  <!-- Basic Image Analysis -->
+                  <div>
+                    <h4 class="font-medium text-card-foreground mb-3">1. Temel Görsel Analiz</h4>
+                    <div class="bg-black rounded p-3 text-green-400 font-mono text-sm">
+                      {<br>
+                      &nbsp;&nbsp;"model": "wyrm-1",<br>
+                      &nbsp;&nbsp;"messages": [{<br>
+                      &nbsp;&nbsp;&nbsp;&nbsp;"role": "user",<br>
+                      &nbsp;&nbsp;&nbsp;&nbsp;"content": [<br>
+                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{"type": "text", "text": "Bu resimde ne görüyorsun?"},<br>
+                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br>
+                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"type": "image_url",<br>
+                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"image_url": {"url": "https://example.com/image.jpg"}<br>
+                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                      &nbsp;&nbsp;&nbsp;&nbsp;]<br>
+                      &nbsp;&nbsp;}],<br>
+                      &nbsp;&nbsp;"max_tokens": 300<br>
+                      }
+                    </div>
+                  </div>
+
+                  <!-- OCR Example -->
+                  <div>
+                    <h4 class="font-medium text-card-foreground mb-3">2. OCR - Metin Çıkarma</h4>
+                    <div class="bg-black rounded p-3 text-green-400 font-mono text-sm">
+                      {<br>
+                      &nbsp;&nbsp;"model": "wyrm-1",<br>
+                      &nbsp;&nbsp;"messages": [{<br>
+                      &nbsp;&nbsp;&nbsp;&nbsp;"role": "user",<br>
+                      &nbsp;&nbsp;&nbsp;&nbsp;"content": [<br>
+                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{"type": "text", "text": "Bu belgedeki tüm metinleri çıkar ve JSON formatında ver"},<br>
+                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br>
+                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"type": "image_url",<br>
+                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"image_url": {"url": "data:image/jpeg;base64,/9j/4AAQ..."}<br>
+                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                      &nbsp;&nbsp;&nbsp;&nbsp;]<br>
+                      &nbsp;&nbsp;}],<br>
+                      &nbsp;&nbsp;"response_format": {"type": "json_object"}<br>
+                      }
+                    </div>
+                  </div>
+
+                  <!-- Detailed Analysis -->
+                  <div>
+                    <h4 class="font-medium text-card-foreground mb-3">3. Detaylı Görsel Soru-Cevap</h4>
+                    <div class="bg-black rounded p-3 text-green-400 font-mono text-sm">
+                      {<br>
+                      &nbsp;&nbsp;"model": "wyrm-1",<br>
+                      &nbsp;&nbsp;"messages": [{<br>
+                      &nbsp;&nbsp;&nbsp;&nbsp;"role": "user",<br>
+                      &nbsp;&nbsp;&nbsp;&nbsp;"content": [<br>
+                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br>
+                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"type": "text", <br>
+                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"text": "Bu faturadaki toplam tutar nedir? Hangi ürünler var?"<br>
+                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;},<br>
+                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{"type": "image_url", "image_url": {"url": "..."} }<br>
+                      &nbsp;&nbsp;&nbsp;&nbsp;]<br>
+                      &nbsp;&nbsp;}]<br>
+                      }
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Advanced Features -->
+              <div class="bg-gradient-to-r from-purple-50 to-pink-50 border border-purple-200 rounded-lg p-8 mb-8">
+                <h3 class="text-2xl font-bold mb-6 text-purple-800">🎯 Gelişmiş Özellikler</h3>
+                
+                <div class="grid gap-6 md:grid-cols-2">
+                  <div>
+                    <h4 class="font-semibold text-purple-700 mb-4">🔍 Nesne Tespiti ve Tanıma</h4>
+                    <div class="space-y-3">
+                      <div class="bg-white/60 rounded p-3">
+                        <div class="font-medium text-purple-800 mb-1">Yüz Tanıma</div>
+                        <div class="text-purple-600 text-sm">Resimlerdeki yüzleri tespit eder ve demografik bilgiler çıkarır</div>
+                      </div>
+                      <div class="bg-white/60 rounded p-3">
+                        <div class="font-medium text-purple-800 mb-1">Nesne Sınıflandırma</div>
+                        <div class="text-purple-600 text-sm">1000+ farklı nesne kategorisini tanır ve konumlarını belirler</div>
+                      </div>
+                      <div class="bg-white/60 rounded p-3">
+                        <div class="font-medium text-purple-800 mb-1">Sahne Analizi</div>
+                        <div class="text-purple-600 text-sm">İç mekan, dış mekan, doğa gibi sahne türlerini kategorize eder</div>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div>
+                    <h4 class="font-semibold text-purple-700 mb-4">📊 Belge İşleme</h4>
+                    <div class="space-y-3">
+                      <div class="bg-white/60 rounded p-3">
+                        <div class="font-medium text-purple-800 mb-1">Tablo Çıkarma</div>
+                        <div class="text-purple-600 text-sm">Tablolardan yapılandırılmış veri çıkarır ve CSV formatına çevirir</div>
+                      </div>
+                      <div class="bg-white/60 rounded p-3">
+                        <div class="font-medium text-purple-800 mb-1">Form Analizi</div>
+                        <div class="text-purple-600 text-sm">Formları otomatik olarak doldurur ve alanları tanır</div>
+                      </div>
+                      <div class="bg-white/60 rounded p-3">
+                        <div class="font-medium text-purple-800 mb-1">Çoklu Dil Desteği</div>
+                        <div class="text-purple-600 text-sm">50+ dilde OCR işlemi gerçekleştirir</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Performance and Limitations -->
+              <div class="grid gap-6 md:grid-cols-2 mb-8">
+                <div class="bg-green-50 border border-green-200 rounded-lg p-6">
+                  <h4 class="font-semibold text-green-800 mb-4">✅ Performans Özellikleri</h4>
+                  <ul class="space-y-2 text-green-700 text-sm">
+                    <li>• Maksimum görsel boyutu: 20MB</li>
+                    <li>• Desteklenen çözünürlük: 8K'ya kadar</li>
+                    <li>• İşleme süresi: 2-5 saniye</li>
+                    <li>• OCR doğruluk oranı: %98+</li>
+                    <li>• Eşzamanlı işlem: 10 görsel</li>
+                    <li>• Batch işleme desteği</li>
+                  </ul>
+                </div>
+                
+                <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-6">
+                  <h4 class="font-semibold text-yellow-800 mb-4">⚠️ Sınırlamalar</h4>
+                  <ul class="space-y-2 text-yellow-700 text-sm">
+                    <li>• Çok bulanık görsellerde düşük doğruluk</li>
+                    <li>• El yazısında sınırlı başarı</li>
+                    <li>• Karmaşık arka planlarda zorluk</li>
+                    <li>• Video dosyaları desteklenmez</li>
+                    <li>• Animasyonlu GIF'lerde sadece ilk kare</li>
+                    <li>• Çok küçük metin boyutlarında zorluk</li>
+                  </ul>
+                </div>
+              </div>
+
+              <!-- Best Practices -->
+              <div class="bg-indigo-50 border border-indigo-200 rounded-lg p-8">
+                <h3 class="text-2xl font-bold mb-6 text-indigo-800">💡 En İyi Uygulamalar</h3>
+                
+                <div class="grid gap-6 md:grid-cols-2">
+                  <div>
+                    <h4 class="font-semibold text-indigo-700 mb-4">📸 Görsel Kalitesi</h4>
+                    <ul class="space-y-2 text-indigo-600 text-sm">
+                      <li>• Yüksek çözünürlüklü görseller kullanın</li>
+                      <li>• İyi aydınlatma koşullarında çekim yapın</li>
+                      <li>• Kontrast oranını yüksek tutun</li>
+                      <li>• Bulanıklığı minimize edin</li>
+                      <li>• Düz açıdan çekim yapın</li>
+                    </ul>
+                  </div>
+                  
+                  <div>
+                    <h4 class="font-semibold text-indigo-700 mb-4">⚡ Performans İpuçları</h4>
+                    <ul class="space-y-2 text-indigo-600 text-sm">
+                      <li>• Gereksiz büyük dosyaları sıkıştırın</li>
+                      <li>• Batch işleme kullanın</li>
+                      <li>• Önbellek mekanizması kurun</li>
+                      <li>• Hata yönetimi ekleyin</li>
+                      <li>• Progress bar gösterin</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Billing Page -->
+          <div id="billing-page" class="page-content">
+            <nav class="text-sm text-muted-foreground mb-4">
+              <ol class="flex items-center gap-2">
+                <li><a href="#" onclick="showPage('welcome')" class="hover:underline">Docs</a></li>
+                <li>/</li>
+                <li class="text-foreground">Billing</li>
+              </ol>
+            </nav>
+            <h1 class="text-3xl font-bold mb-4">Billing</h1>
+            <div class="prose max-w-none">
+              <p class="text-foreground/70 mb-6">WYRM API faturalandırma sistemi ve ödeme yöntemleri.</p>
+              
+              <div class="bg-muted rounded-lg p-6 mb-6">
+                <h3 class="text-lg font-semibold mb-3">💳 Faturalandırma Sistemi</h3>
+                <p class="text-foreground/80">WYRM, kullandığınız token miktarına göre faturalandırma yapar. Aylık kullanım limitinizi kontrol panelinden takip edebilirsiniz.</p>
+              </div>
+
+              <div class="space-y-4">
+                <h3 class="text-xl font-semibold">Ödeme Yöntemleri</h3>
+                <ul class="space-y-2">
+                  <li class="flex items-center gap-2"><span class="text-accent">✓</span> Kredi kartı</li>
+                  <li class="flex items-center gap-2"><span class="text-accent">✓</span> Banka kartı</li>
+                  <li class="flex items-center gap-2"><span class="text-accent">✓</span> PayPal</li>
+                  <li class="flex items-center gap-2"><span class="text-accent">✓</span> Kurumsal fatura</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <!-- Rate Limits Page -->
+          <div id="rate-limits-page" class="page-content">
+            <nav class="text-sm text-muted-foreground mb-4">
+              <ol class="flex items-center gap-2">
+                <li><a href="#" onclick="showPage('welcome')" class="hover:underline">Docs</a></li>
+                <li>/</li>
+                <li class="text-foreground">Rate Limits</li>
+              </ol>
+            </nav>
+            <h1 class="text-3xl font-bold mb-4">Rate Limits</h1>
+            <div class="prose max-w-none">
+              <p class="text-foreground/70 mb-6">API kullanım limitleri ve hız sınırlamaları.</p>
+              
+              <div class="bg-card rounded-lg p-6 mb-6">
+                <h3 class="text-lg font-semibold mb-3 text-card-foreground">⚡ Varsayılan Limitler</h3>
+                <div class="space-y-3 text-card-foreground/80">
+                  <div class="flex justify-between">
+                    <span>Dakika başına istek:</span>
+                    <span class="font-mono">1,000</span>
+                  </div>
+                  <div class="flex justify-between">
+                    <span>Günlük token limiti:</span>
+                    <span class="font-mono">1M tokens</span>
+                  </div>
+                  <div class="flex justify-between">
+                    <span>Eşzamanlı istek:</span>
+                    <span class="font-mono">50</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="bg-muted rounded-lg p-6">
+                <h3 class="text-lg font-semibold mb-3">📈 Limit Artırma</h3>
+                <p class="text-foreground/80">Daha yüksek limitler için destek ekibimizle iletişime geçin. Kurumsal planlar için özel limitler mevcuttur.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Endpoints Page -->
+          <div id="endpoints-page" class="page-content">
+            <nav class="text-sm text-muted-foreground mb-4">
+              <ol class="flex items-center gap-2">
+                <li><a href="#" onclick="showPage('welcome')" class="hover:underline">Docs</a></li>
+                <li>/</li>
+                <li class="text-foreground">Endpoints</li>
+              </ol>
+            </nav>
+            <h1 class="text-3xl font-bold mb-4">API Endpoints</h1>
+            <div class="prose max-w-none">
+              <p class="text-foreground/70 mb-6">WYRM API'nin mevcut endpoint'leri ve kullanım örnekleri.</p>
+              
+              <div class="space-y-6">
+                <div class="border border-border rounded-lg p-6">
+                  <h3 class="text-lg font-semibold mb-3">Chat Completions</h3>
+                  <div class="bg-black rounded p-3 text-green-400 font-mono text-sm mb-3">
+                    POST https://api.wyrm.ai/v1/chat/completions
+                  </div>
+                  <p class="text-foreground/70">Metin tabanlı sohbet tamamlama işlemleri için kullanılır.</p>
+                </div>
+
+                <div class="border border-border rounded-lg p-6">
+                  <h3 class="text-lg font-semibold mb-3">Models</h3>
+                  <div class="bg-black rounded p-3 text-green-400 font-mono text-sm mb-3">
+                    GET https://api.wyrm.ai/v1/models
+                  </div>
+                  <p class="text-foreground/70">Mevcut modellerin listesini getirir.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Default pages for other menu items -->
+          <div id="whats-new-page" class="page-content">
+            <nav class="text-sm text-muted-foreground mb-4">
+              <ol class="flex items-center gap-2">
+                <li><a href="#" onclick="showPage('welcome')" class="hover:underline">Docs</a></li>
+                <li>/</li>
+                <li class="text-foreground">What's New</li>
+              </ol>
+            </nav>
+            <h1 class="text-3xl font-bold mb-4">What's New</h1>
+            <p class="text-foreground/70 mb-6">WYRM API'deki son güncellemeler ve yeni özellikler.</p>
+            <div class="bg-muted rounded-lg p-6">
+              <h3 class="text-lg font-semibold mb-3">🎉 Yeni Özellikler</h3>
+              <p class="text-foreground/80">Bu sayfa yakında güncellenecek...</p>
+            </div>
+          </div>
+
+          <div id="collections-page" class="page-content">
+            <nav class="text-sm text-muted-foreground mb-4">
+              <ol class="flex items-center gap-2">
+                <li><a href="#" onclick="showPage('welcome')" class="hover:underline">Docs</a></li>
+                <li>/</li>
+                <li class="text-foreground">Collections</li>
+              </ol>
+            </nav>
+            <h1 class="text-3xl font-bold mb-4">Collections</h1>
+            <p class="text-foreground/70 mb-6">WYRM Collections özelliği hakkında bilgiler.</p>
+            <div class="bg-muted rounded-lg p-6">
+              <h3 class="text-lg font-semibold mb-3">📚 Collections</h3>
+              <p class="text-foreground/80">Bu sayfa yakında güncellenecek...</p>
+            </div>
+          </div>
+
+          <div id="keys-page" class="page-content">
+            <nav class="text-sm text-muted-foreground mb-4">
+              <ol class="flex items-center gap-2">
+                <li><a href="#" onclick="showPage('welcome')" class="hover:underline">Docs</a></li>
+                <li>/</li>
+                <li class="text-foreground">API Keys</li>
+              </ol>
+            </nav>
+            <h1 class="text-3xl font-bold mb-4">API Keys</h1>
+            <p class="text-foreground/70 mb-6">API anahtarlarınızı yönetme rehberi.</p>
+            <div class="bg-muted rounded-lg p-6">
+              <h3 class="text-lg font-semibold mb-3">🔑 API Anahtarları</h3>
+              <p class="text-foreground/80">Bu sayfa yakında güncellenecek...</p>
+            </div>
+          </div>
+
+          <div id="usage-page" class="page-content">
+            <nav class="text-sm text-muted-foreground mb-4">
+              <ol class="flex items-center gap-2">
+                <li><a href="#" onclick="showPage('welcome')" class="hover:underline">Docs</a></li>
+                <li>/</li>
+                <li class="text-foreground">Usage</li>
+              </ol>
+            </nav>
+            <h1 class="text-3xl font-bold mb-4">Usage</h1>
+            <p class="text-foreground/70 mb-6">API kullanım istatistikleri ve takip.</p>
+            <div class="bg-muted rounded-lg p-6">
+              <h3 class="text-lg font-semibold mb-3">📊 Kullanım İstatistikleri</h3>
+              <p class="text-foreground/80">Bu sayfa yakında güncellenecek...</p>
+            </div>
+          </div>
+
+          <div id="structured-outputs-page" class="page-content">
+            <nav class="text-sm text-muted-foreground mb-4">
+              <ol class="flex items-center gap-2">
+                <li><a href="#" onclick="showPage('welcome')" class="hover:underline">Docs</a></li>
+                <li>/</li>
+                <li class="text-foreground">Structured Outputs</li>
+              </ol>
+            </nav>
+            <h1 class="text-3xl font-bold mb-4">Structured Outputs</h1>
+            <p class="text-foreground/70 mb-6">Yapılandırılmış çıktılar ile JSON formatında yanıtlar alın.</p>
+            <div class="bg-muted rounded-lg p-6">
+              <h3 class="text-lg font-semibold mb-3">📐 Yapılandırılmış Çıktılar</h3>
+              <p class="text-foreground/80">Bu sayfa yakında güncellenecek...</p>
+            </div>
+          </div>
+
+          <div id="reasoning-page" class="page-content">
+            <nav class="text-sm text-muted-foreground mb-4">
+              <ol class="flex items-center gap-2">
+                <li><a href="#" onclick="showPage('welcome')" class="hover:underline">Docs</a></li>
+                <li>/</li>
+                <li class="text-foreground">Reasoning</li>
+              </ol>
+            </nav>
+            <h1 class="text-3xl font-bold mb-4">Reasoning</h1>
+            <p class="text-foreground/70 mb-6">WYRM'ın gelişmiş mantıksal çıkarım yetenekleri.</p>
+            <div class="bg-muted rounded-lg p-6">
+              <h3 class="text-lg font-semibold mb-3">🧠 Mantıksal Çıkarım</h3>
+              <p class="text-foreground/80">Bu sayfa yakında güncellenecek...</p>
+            </div>
+          </div>
+
+          <div id="streaming-page" class="page-content">
+            <nav class="text-sm text-muted-foreground mb-4">
+              <ol class="flex items-center gap-2">
+                <li><a href="#" onclick="showPage('welcome')" class="hover:underline">Docs</a></li>
+                <li>/</li>
+                <li class="text-foreground">Streaming</li>
+              </ol>
+            </nav>
+            <h1 class="text-3xl font-bold mb-4">Streaming</h1>
+            <p class="text-foreground/70 mb-6">Gerçek zamanlı yanıt akışı ile hızlı etkileşim.</p>
+            <div class="bg-muted rounded-lg p-6">
+              <h3 class="text-lg font-semibold mb-3">⚡ Streaming</h3>
+              <p class="text-foreground/80">Bu sayfa yakında güncellenecek...</p>
+            </div>
+          </div>
+
+          <div id="discord-page" class="page-content">
+            <nav class="text-sm text-muted-foreground mb-4">
+              <ol class="flex items-center gap-2">
+                <li><a href="#" onclick="showPage('welcome')" class="hover:underline">Docs</a></li>
+                <li>/</li>
+                <li class="text-foreground">Discord Community</li>
+              </ol>
+            </nav>
+            <h1 class="text-3xl font-bold mb-4">Discord Community</h1>
+            <p class="text-foreground/70 mb-6">WYRM topluluğuna katılın ve diğer geliştiricilerle etkileşim kurun.</p>
+            <div class="bg-muted rounded-lg p-6">
+              <h3 class="text-lg font-semibold mb-3">💬 Discord Topluluğu</h3>
+              <p class="text-foreground/80">Bu sayfa yakında güncellenecek...</p>
+            </div>
+          </div>
+
+          <div id="faq-page" class="page-content">
+            <nav class="text-sm text-muted-foreground mb-4">
+              <ol class="flex items-center gap-2">
+                <li><a href="#" onclick="showPage('welcome')" class="hover:underline">Docs</a></li>
+                <li>/</li>
+                <li class="text-foreground">FAQ</li>
+              </ol>
+            </nav>
+            <h1 class="text-3xl font-bold mb-4">Frequently Asked Questions</h1>
+            <p class="text-foreground/70 mb-6">Sık sorulan sorular ve cevapları.</p>
+            <div class="bg-muted rounded-lg p-6">
+              <h3 class="text-lg font-semibold mb-3">❓ SSS</h3>
+              <p class="text-foreground/80">Bu sayfa yakında güncellenecek...</p>
+            </div>
+          </div>
         </main>
       </div>
     </div>
 
-    <!-- Optional: Ctrl+K focus for search -->
+    <!-- JavaScript for page navigation and theme toggle -->
     <script>
+      // Theme toggle functionality
+      function toggleTheme() {
+        const body = document.body;
+        const lightIcon = document.querySelector('.theme-icon-light');
+        const darkIcon = document.querySelector('.theme-icon-dark');
+        
+        body.classList.toggle('dark');
+        
+        if (body.classList.contains('dark')) {
+          lightIcon.classList.add('hidden');
+          darkIcon.classList.remove('hidden');
+          localStorage.setItem('theme', 'dark');
+        } else {
+          lightIcon.classList.remove('hidden');
+          darkIcon.classList.add('hidden');
+          localStorage.setItem('theme', 'light');
+        }
+      }
+
+      // Load saved theme on page load
+      document.addEventListener('DOMContentLoaded', function() {
+        const savedTheme = localStorage.getItem('theme');
+        const lightIcon = document.querySelector('.theme-icon-light');
+        const darkIcon = document.querySelector('.theme-icon-dark');
+        
+        if (savedTheme === 'dark') {
+          document.body.classList.add('dark');
+          lightIcon.classList.add('hidden');
+          darkIcon.classList.remove('hidden');
+        }
+      });
+
+      function showPage(pageId) {
+        // Hide all pages
+        const pages = document.querySelectorAll('.page-content');
+        pages.forEach(page => {
+          page.classList.remove('active');
+        });
+
+        // Show selected page
+        const targetPage = document.getElementById(pageId + '-page');
+        if (targetPage) {
+          targetPage.classList.add('active');
+        }
+
+        // Update active nav link
+        const navLinks = document.querySelectorAll('.nav-link');
+        navLinks.forEach(link => {
+          link.classList.remove('active');
+        });
+
+        const activeLink = document.querySelector(`[data-page="${pageId}"]`);
+        if (activeLink) {
+          activeLink.classList.add('active');
+        }
+
+        // Scroll to top
+        window.scrollTo(0, 0);
+      }
+
+      // Optional: Ctrl+K focus for search
       const searchInput = document.querySelector('input[placeholder="Search documentation..."]');
       window.addEventListener("keydown", (e) => {
         if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "k") {
@@ -316,6 +2079,5 @@
         }
       });
     </script>
-  </body>
+  <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'98331350873cdb46',t:'MTc1ODU1NzQ1OC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
-
